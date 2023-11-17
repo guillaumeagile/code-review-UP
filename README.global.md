@@ -81,6 +81,10 @@
 
 ## Instructions
 
+```sh
+yarn install --ignore-engines
+```
+
 ### Execute tests
 
 Just run the test suite

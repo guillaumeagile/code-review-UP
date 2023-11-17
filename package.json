@@ -1,0 +1,83 @@
+{
+  "name": "ts-kata",
+  "version": "1.0.0",
+  "description": "Typescript kata starting project",
+  "author": "Pedro Moreira Santos",
+  "homepage": "https://github.com/pedromsantos/ts-kata",
+  "keywords": [
+    "kata",
+    "dojo",
+    "code",
+    "practice",
+    "tdd"
+  ],
+  "license": "MIT",
+  "main": "./lib/kata.js",
+  "files": [
+    "lib/"
+  ],
+  "scripts": {
+    "clean": "rm -r ./lib",
+    "precommit": "npm-run-all -p lint types test build",
+    "ci": "npm-run-all -p lint types test:ci build",
+    "build": "tsc -p tsconfig.json",
+    "lint": "eslint . --cache --cache-location ./node_modules/.cache/eslint --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
+    "types": "type-coverage -at-least 99",
+    "types-report": "typescript-coverage-report --threshold 99",
+    "prepare": "husky install",
+    "generate-types": "openapi-typescript src/18_Katacombs/katacombsAPI.yml -o src/18_Katacombs/api.ts",
+    "test": "jest --watchAll=false",
+    "test:ci": "jest test --watchAll=false --coverage=true",
+    "mutants": "stryker run",
+    "watch": "jest --watch",
+    "golf1": "jest -i src/12_RefactoringGolf/hole1/ --watchAll=true"    
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "^18.4.2",
+    "@commitlint/config-conventional": "^18.4.2",
+    "@commitlint/format": "^18.4.0",
+    "@stryker-mutator/core": "^7.3.0",
+    "@stryker-mutator/jest-runner": "^7.3.0",
+    "@stryker-mutator/typescript-checker": "^7.3.0",
+    "@types/jest": "^29.5.7",
+    "@typescript-eslint/eslint-plugin": "^6.11.0",
+    "@typescript-eslint/parser": "^6.11.0",
+    "eslint": "^8.52.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-import": "^2.29.0",
+    "eslint-plugin-jest": "^27.6.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "eslint-plugin-sonarjs": "^0.23.0",
+    "fast-check": "^3.13.2",
+    "husky": "^8.0.3",
+    "jest": "^29.7.0",
+    "jest-extended-snapshot": "^1.1.5",
+    "npm-run-all": "^4.1.5",
+    "openapi-typescript": "^6.7.0",
+    "prettier": "^3.0.3",
+    "ts-coverage": "^0.1.5",
+    "ts-jest": "^29.1.1",
+    "type-coverage": "^2.27.0",
+    "typescript": "^5.2.2",
+    "typescript-coverage-report": "^0.8.0"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "formatter": "@commitlint/format",
+    "rules": {
+      "subject-case": [
+        2,
+        "never",
+        [
+          "start-case",
+          "pascal-case"
+        ]
+      ]
+    }
+  }
+}

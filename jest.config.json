@@ -1,0 +1,7 @@
+{
+  "collectCoverageFrom": ["src/**/*.ts", "!src/**/*.test.*"],
+  "coverageReporters": ["json", "lcov", "text", "html"],
+  "preset": "ts-jest",
+  "testTimeout": 10000,
+  "setupFilesAfterEnv": ["jest-extended-snapshot"]
+}
