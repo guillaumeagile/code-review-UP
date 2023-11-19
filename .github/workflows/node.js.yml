@@ -22,7 +22,7 @@ jobs:
       - name: Linting and prettifying
         run: |
           yarn lint
-          yarn prettier
+          yarn prettier:ci
         working-directory: ./
 
   build:

@@ -23,7 +23,7 @@
     "build": "tsc -p tsconfig.json",
     "lint": "eslint . --cache --cache-location ./node_modules/.cache/eslint --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "prettier": "prettier --list-different \"**/*.+(js|jsx|json|yml|yaml|css)\" || true",
+    "prettier:ci": "prettier --list-different \"**/*.+(js|jsx|json|yml|yaml|css)\" || true",
     "prettier:fix": "prettier --write --list-different \"**/*.+(js|jsx|json|yml|yaml|css)\" ",
     "types": "type-coverage -at-least 99",
     "types-report": "typescript-coverage-report --threshold 99",
