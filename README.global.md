@@ -81,6 +81,10 @@
 
 ## Instructions
 
+npm install -g npm@latest
+
+nvm install node
+
 ```sh
 yarn install --ignore-engines
 ```
