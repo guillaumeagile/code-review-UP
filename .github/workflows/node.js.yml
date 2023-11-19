@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: "21.x"
       - run: npm install -g yarn@2
-      - run: yarn install --immutable
+      - run: yarn install 
       - name: Linting and prettifying
         run: |
           yarn lint
