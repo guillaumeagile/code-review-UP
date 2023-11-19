@@ -17,10 +17,11 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "18.x"
-      - run: npm install -g yarn@2
-      - run: yarn install --immutable
+      - run: npm install -g yarn@1
+      - run: yarn install 
       - name: Linting and prettifying
         run: |
+          yarn
           yarn lint
           yarn prettier:ci
 #        working-directory: ./
