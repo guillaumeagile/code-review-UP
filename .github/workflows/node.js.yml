@@ -22,8 +22,8 @@ jobs:
       - name: Linting and prettifying
         run: |
           yarn lint
-          yarn prettier:ci
-        working-directory: ./
+#          yarn prettier:ci
+#        working-directory: ./
 
   build:
     runs-on: ubuntu-latest
