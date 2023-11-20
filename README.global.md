@@ -87,7 +87,7 @@ nvm install node
 
 ### install yarn
 
-https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/#differences-between-eslint-prettier
+https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable
 
 ### then, run yarn to install all dependencies
 
