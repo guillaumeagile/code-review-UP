@@ -1,7 +1,7 @@
-/* eslint-disable */
 
+const leBonNom = ' ';
 export class Game {
-  private _lastSymbol = ' ';
+  private _lastSymbol = leBonNom;
   private _board: Board = new Board();
 
   public Play(symbol: string, x: number, y: number): void {
