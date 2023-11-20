@@ -5,13 +5,10 @@ export class Game {
   private _lastSymbol = ' ';
   private _board: Board = new Board();
 
-  public Play(symbol: string, x: number, y: number): void {
-    //if first move
-    if (this._lastSymbol == ' ') {
-      //if player is X
-      if (symbol == 'O') {
-        throw new Error('Invalid first player');
-      }
+  public Play(symbol: string, x: number, y: number): void { 
+    //if first move //if player is X
+    if (this._lastSymbol == ' ' && symbol == 'O') {
+      throw new Error('Invalid first player');      
     }
     //if not first move but player repeated
     else if (symbol == this._lastSymbol) {
