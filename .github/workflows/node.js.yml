@@ -21,9 +21,9 @@ jobs:
       - run: yarn install 
       - name: Linting and prettifying
         run: |
-            yarn
-            yarn lint
-            yarn prettier:ci
+          yarn
+          yarn lint
+          yarn prettier:ci
 #        working-directory: ./
 
   build:
