@@ -125,7 +125,9 @@ yarn mutants
 yarn watch
 ```
 
-## Explanations
+## Explanations, References
 
 
 https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/#differences-between-eslint-prettier
+
+https://code.visualstudio.com/docs/remote/wsl-tutorial
