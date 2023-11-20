@@ -5,6 +5,7 @@ export class Game {
   private _lastSymbol = ' ';
   private _toto: Board = new Board();
 
+
   public Play(symbol: string, x: number, y: number): void {
     //if first move
     if (this._lastSymbol == ' ') {
@@ -82,6 +83,8 @@ interface Tile {
   Y: number;
   Symbol: string;
 }
+
+
 
 class Board {
   private _plays: Tile[] = [];
