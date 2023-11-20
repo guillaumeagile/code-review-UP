@@ -18,8 +18,11 @@ export class Game {
      if (this._board.TileAt(x, y).Symbol != ' ') {
       throw new Error('Invalid position');
     }
+    
+    this.updateGameState(symbol, x, y);
+  }
 
-    // update game state
+  private updateGameState(symbol: string, x: number, y: number) {
     this._lastSymbol = symbol;
     this._board.AddTileAt(symbol, x, y);
   }
