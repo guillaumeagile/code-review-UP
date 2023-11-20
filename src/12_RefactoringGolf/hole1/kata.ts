@@ -131,4 +131,6 @@ class Board {
 
     this._plays.find((t: Tile) => t.X == x && t.Y == y)!.Symbol = symbol;
   }
+
+  
 }
