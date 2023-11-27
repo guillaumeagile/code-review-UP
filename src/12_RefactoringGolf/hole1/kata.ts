@@ -1,7 +1,8 @@
 
+const EMPTY_TILE: string = ' ';
 
 export class Game {
-  public readonly EMPTY_TILE = ' ';
+  private readonly DEFAULT_LAST_SYMBOL = ' ';
   private readonly SYMBOL_PLAYER_O = 'O';
 
   private readonly COLUMN_0 = 0;
@@ -12,7 +13,7 @@ export class Game {
   private readonly ROW_2 = 2;
 
 
-  private _lastSymbol = this.EMPTY_TILE;
+  private _lastSymbol = this.DEFAULT_LAST_SYMBOL;
   private _board: Board = new Board();
 
   public Play(symbol: string, x: number, y: number): void {
@@ -25,7 +26,7 @@ export class Game {
   }
 
   private validateFirstMove(player: string) {
-    if (this._lastSymbol == this.EMPTY_TILE) {
+    if (this._lastSymbol == EMPTY_TILE) {
       if (player == this.SYMBOL_PLAYER_O) {
         throw new Error('Invalid first player');
       }
@@ -39,7 +40,7 @@ export class Game {
   }
 
   private validatePositionIsEmpty(x: number, y: number) {
-    if (this._board.TileAt(x, y).Symbol != this.EMPTY_TILE) {
+    if (this._board.TileAt(x, y).Symbol != EMPTY_TILE) {
       throw new Error('Invalid position');
     }
   }
@@ -65,14 +66,14 @@ export class Game {
       return this._board.TileAt(this.ROW_2, this.COLUMN_0)!.Symbol;
     }
 
-    return this.EMPTY_TILE;
+    return EMPTY_TILE;
   }
 
   private isFirstRowFull() {
     return (
-      this._board.TileAt(this.ROW_0, this.COLUMN_0)!.Symbol != this.EMPTY_TILE &&
-      this._board.TileAt(this.ROW_0, this.COLUMN_1)!.Symbol != this.EMPTY_TILE &&
-      this._board.TileAt(this.ROW_0, this.COLUMN_2)!.Symbol != this.EMPTY_TILE
+      this._board.TileAt(this.ROW_0, this.COLUMN_0)!.Symbol != EMPTY_TILE &&
+      this._board.TileAt(this.ROW_0, this.COLUMN_1)!.Symbol != EMPTY_TILE &&
+      this._board.TileAt(this.ROW_0, this.COLUMN_2)!.Symbol != EMPTY_TILE
     );
   }
 
@@ -85,9 +86,9 @@ export class Game {
 
   private isSecondRowFull() {
     return (
-      this._board.TileAt(this.ROW_1, this.COLUMN_0)!.Symbol != this.EMPTY_TILE &&
-      this._board.TileAt(this.ROW_1, this.COLUMN_1)!.Symbol != this.EMPTY_TILE &&
-      this._board.TileAt(this.ROW_1, this.COLUMN_2)!.Symbol != this.EMPTY_TILE
+      this._board.TileAt(this.ROW_1, this.COLUMN_0)!.Symbol != EMPTY_TILE &&
+      this._board.TileAt(this.ROW_1, this.COLUMN_1)!.Symbol != EMPTY_TILE &&
+      this._board.TileAt(this.ROW_1, this.COLUMN_2)!.Symbol != EMPTY_TILE
     );
   }
 
@@ -100,9 +101,9 @@ export class Game {
 
   private isThirdRowFull() {
     return (
-      this._board.TileAt(this.ROW_2, this.COLUMN_0)!.Symbol != this.EMPTY_TILE &&
-      this._board.TileAt(this.ROW_2, this.COLUMN_1)!.Symbol != this.EMPTY_TILE &&
-      this._board.TileAt(this.ROW_2, this.COLUMN_2)!.Symbol != this.EMPTY_TILE
+      this._board.TileAt(this.ROW_2, this.COLUMN_0)!.Symbol != EMPTY_TILE &&
+      this._board.TileAt(this.ROW_2, this.COLUMN_1)!.Symbol != EMPTY_TILE &&
+      this._board.TileAt(this.ROW_2, this.COLUMN_2)!.Symbol != EMPTY_TILE
     );
   }
 
@@ -126,7 +127,7 @@ class Board {
   constructor() {
     for (let i = 0; i < 3; i++) {
       for (let j = 0; j < 3; j++) {
-        const tile: Tile = { X: i, Y: j, Symbol: ' '};
+        const tile: Tile = { X: i, Y: j, Symbol: EMPTY_TILE};
         this._plays.push(tile);
       }
     }
