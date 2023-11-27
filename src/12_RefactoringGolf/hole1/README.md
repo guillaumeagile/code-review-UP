@@ -1,11 +1,11 @@
-# Hole 6 to Hole 7
+# Hole 7 to Hole 8
 
-Change the code in hole 6 to be identical to the code on hole 7, both implenentation and tests can change.
+Change the code in hole 7 to be identical to the code on hole 8, both implenentation and tests can change.
 
 ## Refactorings
 
-- Tackle data class
-  - Move behaviour from classes to data class
+- Tackle domain language as result of new abstractions
+  - Rename constants, variables, arguments, methods to better express domain language
 
 ## Tips
 
