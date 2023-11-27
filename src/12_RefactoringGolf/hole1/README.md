@@ -1,11 +1,10 @@
-# Hole 7 to Hole 8
+# Hole 9 to Hole 10
 
-Change the code in hole 7 to be identical to the code on hole 8, both implenentation and tests can change.
+Change the code in hole 9 to be identical to the code on hole 10, both implenentation and tests can change.
 
 ## Refactorings
 
-- Tackle domain language as result of new abstractions
-  - Rename constants, variables, arguments, methods to better express domain language
+- Tackle long parameter
 
 ## Tips
 
