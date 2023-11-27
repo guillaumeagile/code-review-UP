@@ -1,15 +1,23 @@
-# Hole 3 to Hole 4
+# Hole 4 to Hole 5
 
-Change the code in hole 3 to be identical to the code on hole 4, both implenentation and tests can change.
+Change the code in hole 4 to be identical to the code on hole 5, both implenentation and tests can change.
 
 ## Refactorings
 
-- Remove magic strings and numbers
-  - Introduce constant
+- Tackle scope of constants and variables
+  - Move constants and variables to proper scope
+  - les constantes et les variable ne sont pas au bon endroit, dans le bon scope
+  - Déplacez les pour qu'elles ne soient pas globales mais utilisées aux seuls endroits où on en a besoin
+  - 
+- Tackle duplication
+  - Introduce more generic methods to replace duplicted methods
+  - il y a des méthodes qui font la meme chose, trouvez les, et en les rendant à peine plus générique, réduisez le code dupliqué au strict nécessaire.
 
 ## Tips
 
 - Use a diff tool to identify the code changes you need to perform
+-  https://devconnected.com/how-to-compare-two-git-branches/
+- $ git diff branch1..branch2
 - Check the code coverage is enough to detect any unintended behaviour changes
 
 ### While refactoring
