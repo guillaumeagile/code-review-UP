@@ -1,6 +1,5 @@
-# Hole 7 to Hole 8
+# Hole 6 to Hole 7
 
-Change the code in hole 7 to be identical to the code on hole 8, both implenentation and tests can change.
 
 ## Refactorings
 
