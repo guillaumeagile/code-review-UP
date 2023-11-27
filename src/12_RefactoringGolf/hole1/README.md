@@ -1,11 +1,11 @@
-# Hole 5 to Hole 6
+# Hole 6 to Hole 7
 
-Change the code in hole 5 to be identical to the code on hole 6, both implenentation and tests can change.
+Change the code in hole 6 to be identical to the code on hole 7, both implenentation and tests can change.
 
 ## Refactorings
 
-- Tackle feature envy
-  - Move method
+- Tackle data class
+  - Move behaviour from classes to data class
 
 ## Tips
 
