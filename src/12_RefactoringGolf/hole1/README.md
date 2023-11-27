@@ -4,8 +4,8 @@ Change the code in hole 3 to be identical to the code on hole 4, both implenenta
 
 ## Refactorings
 
-- Remove magic strings and numbers
-  - Introduce constant
+- REVUE DE CODE: indentify magic strings and numbers
+  - REFACTORING : Introduce constant
 
 ## Tips
 
