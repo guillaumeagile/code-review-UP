@@ -38,10 +38,10 @@ export class Game {
   }
 
   private validatePositionIsEmpty(x: number, y: number) {
-    if (this._board.TileAt(x, y).Symbol != emptyPlay) {
+    if (this._board.TileAt(x, y).isNotEmpty) {
       throw new Error('Invalid position');
     }
-  }
+  }  
 
   private updateLastPlayer(player: string) {
     this._lastSymbol = player;
