@@ -94,8 +94,8 @@ class Board {
   private _plays: Tile[] = [];
 
   constructor() {
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
+    for (let i = firstRow; i <= thirdRow; i++) {
+      for (let j = firstColumn; j <= thirdColumn; j++) {    
         const tile: Tile = { X: i, Y: j, Symbol: ' ' };
         this._plays.push(tile);
       }
