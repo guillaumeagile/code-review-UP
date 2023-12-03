@@ -52,36 +52,9 @@ export class Game {
   }
 
   public Winner(): string {
-    if (this.isRowFull(firstRow) && this.isRowFullWithSameSymbol(firstRow)) {
-      return this._board.TileAt(firstRow, firstColumn)!.Symbol;
-    }
-
-    if (this.isRowFull(secondRow) && this.isRowFullWithSameSymbol(secondRow)) {
-      return this._board.TileAt(secondRow, firstColumn)!.Symbol;
-    }
-
-    if (this.isRowFull(thirdRow) && this.isRowFullWithSameSymbol(thirdRow)) {
-      return this._board.TileAt(thirdRow, firstColumn)!.Symbol;
-    }
-
-    return emptyPlay;
+    return this._board.findRowFullWithSamePlayer();
   }
 
-  private isRowFull(row: number) {
-    return (
-      this._board.TileAt(row, firstColumn)!.Symbol != emptyPlay &&
-      this._board.TileAt(row, secondColumn)!.Symbol != emptyPlay &&
-      this._board.TileAt(row, thirdColumn)!.Symbol != emptyPlay
-    );
-  }
-
-  private isRowFullWithSameSymbol(row: number) {
-    return (
-      this._board.TileAt(row, firstColumn)!.Symbol ==
-        this._board.TileAt(row, secondColumn)!.Symbol &&
-      this._board.TileAt(row, thirdColumn)!.Symbol == this._board.TileAt(row, secondColumn)!.Symbol
-    );
-  }
 }
 
 class Tile {
@@ -135,6 +108,37 @@ class Board {
     this._plays
       .find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, symbol)))!
       .updateSymbol(symbol);
+  }
+
+  public findRowFullWithSamePlayer(): string {
+    if (this.isRowFull(firstRow) && this.isRowFullWithSameSymbol(firstRow)) {
+      return this.TileAt(firstRow, firstColumn)!.Symbol;
+    }
+
+    if (this.isRowFull(secondRow) && this.isRowFullWithSameSymbol(secondRow)) {
+      return this.TileAt(secondRow, firstColumn)!.Symbol;
+    }
+
+    if (this.isRowFull(thirdRow) && this.isRowFullWithSameSymbol(thirdRow)) {
+      return this.TileAt(thirdRow, firstColumn)!.Symbol;
+    }
+
+    return emptyPlay;
+  }
+
+  private isRowFull(row: number) {
+    return (
+      this.TileAt(row, firstColumn)!.isNotEmpty &&
+      this.TileAt(row, secondColumn)!.isNotEmpty &&
+      this.TileAt(row, thirdColumn)!.isNotEmpty
+    );
+  }
+
+  private isRowFullWithSameSymbol(row: number) {
+    return (
+      this.TileAt(row, firstColumn)!.hasSameSymbolAs(this.TileAt(row, secondColumn)!) &&
+      this.TileAt(row, thirdColumn)!.hasSameSymbolAs(this.TileAt(row, secondColumn)!)
+    );
   }
   
 }
