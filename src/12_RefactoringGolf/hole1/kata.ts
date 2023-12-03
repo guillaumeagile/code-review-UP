@@ -25,7 +25,7 @@ export class Game {
 
   private validateFirstMove(player: string) {
     if (this._lastSymbol == emptyPlay) {
-      if (player == playerO) {
+      if (player === playerO) {
         throw new Error('Invalid first player');
       }
     }
