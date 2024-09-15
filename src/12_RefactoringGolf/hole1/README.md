@@ -1,4 +1,4 @@
-# Hole 6 to Hole 7
+# Exo 6 to Exo 7
 
 
 ## Refactorings
