@@ -5,7 +5,8 @@ Change the code in hole 1 to be identical to the code in hole 2; implementation 
 ## Refactorings
 
 - Tackle code comments, long method and large class
-  - Extract method
+  - Extract method where there is a comment 
+  - Extract when, logically, you can divide a method that is too long, into sub methods
 
 ## Tips
 
