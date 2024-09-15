@@ -1,6 +1,7 @@
 # Refactoring Golf
 ![illustration code golf]( ./code_golf.png "it's you 😅")
 
+
 ## Instructions
 
 npm install -g npm@latest
@@ -35,21 +36,32 @@ yarn test
 yarn test:ci
 ```
 
-## Game
+# Fight the code smells
+- https://www.opsera.io/blog/what-is-code-smell
+- https://blog.codinghorror.com/code-smells/
 
+![illustration code](https://osu-wams-blogs-uploads.s3.amazonaws.com/blogs.dir/6221/files/2023/01/image.png)
 
-- Start on hole 1 and refactor the code to be like the code in hole 2
+## on your Forked Project
+
+- put your names in README ETUDIANTS.md; commit and push.
+- Create a Pull Request on Exo01
   - Use a diff tool to see the differences in code between the starting hole and end hole
-- Move to hole 2 and refactor the code from hole 2 to be like the code in hole 3
-- Apply the same pattern until you reach hole 13
+  - write your annotations, remarks... spot the problem(s)
+  - make a refactoring to the code, to fix the problem
+  - be sure the tests are green
+  - review your changes
+  - push (but don't merge) the pull request to the original repository
+
+- Move to Exo 2 and do the same to refactor the code from Exo 2 to be like the code in Exo 3
+- Apply the same pattern until you reach hole 8
 - Remember to keep the code compiling and the tests passing at all times during the refactor
 - For every refactor, run the tests, and if they pass, commit
 - It's okay, and actually heavily encouraged, to revert back to a previous working state at any moment
-- Give each hole at least 3 attempts for each run.
+
 
 ## Before you start
 
-- Make sure you have identified as many code smells on the starting hole as possible.
 - Make sure the code builds, and tests are passing `yarn test`
 
 ## First run
@@ -61,22 +73,10 @@ yarn test:ci
     - do the refactoring
     - create a Pull Request
 
-## Second run
+## other runs
 
 - Refactor the code following the treatment available for each code smell in <https://refactoring.guru/refactoring/smells>.
-  - Using pen and pencil, take note of the following:
-    - For every compilation error you get during or after a refactor, count 1 strike.
-    - For every failing test during or after a refactor, count 2 strikes.
 
-## Third run
-
-- Refactor the code following the treatment available for each code smell in <https://refactoring.guru/refactoring/smells>. Use automated IDE refactoring as much as possible.
-  - Using pen and pencil, take note of the following:
-    - For every manual edit, count 1 strike.
-      - Any code formatting applied does not count as a manual edit
-      - Deleting blank lines or blank spaces does not count as a manual edit
-    - For every compilation error you get during or after a refactor, count 1 strike.
-    - For every failing test during or after a refactor, count 2 strikes.
 
 ## Refactoring Priority Premise
 
