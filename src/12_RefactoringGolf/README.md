@@ -1,11 +1,11 @@
-# Hole 1 to Hole 2
+# Warmup : make it green
 
-Change the code in hole 1 to be identical to the code in hole 2; implementation and tests can change.
 
 ## Refactorings
 
-- Tackle code comments, long method and large class
-  - Extract method
+- all tests are red, why?  maybe just a little mistake (learn to understand the errors displayed in the tests)
+- one variable name is not satisfying, fix it
+
 
 ## Tips
 
