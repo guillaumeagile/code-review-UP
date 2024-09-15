@@ -1,14 +1,15 @@
 # Hole 1 to Hole 2
 
-Change the code in hole 1 to be identical to the code in hole 2; implementation and tests can change.
+# create a pull request
 
 ## Refactorings
 
-- Tackle code comments, long method and large class
-  - Extract method
+- Tackle all code comments, long method and large class
+  - Extract methods where there is a comment
 
 ## Tips
 
+- Change the code in hole 1 to be identical to the code in hole 2; implementation and tests can change.
 - Use a diff tool to identify the code changes you need to perform
 - Check the code coverage is enough to detect any unintended behaviour changes
 
