@@ -1,6 +1,5 @@
-# Hole 1 to Hole 2
+# Exo 1 to Exo 2
 
-Change the code in hole 1 to be identical to the code in hole 2; implementation and tests can change.
 
 ## Refactorings
 
