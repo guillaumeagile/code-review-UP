@@ -1,6 +1,5 @@
-# Hole 5 to Hole 6
+# Exo 5 to Exo 6
 
-Change the code in hole 5 to be identical to the code on hole 6, both implenentation and tests can change.
 
 ## Refactorings
 - PROBLEME: la loi de Demeter n'est pas respectée ("Tell, Don't Ask" ou "Holywood Pronciple")
@@ -8,7 +7,8 @@ Change the code in hole 5 to be identical to the code on hole 6, both implenenta
   - https://tech-fr.netlify.app/articles/fr512716/index.html
   - https://www.arolla.fr/blog/2017/02/principes-solid-vie-de-jours/#Loi_de_Demeter
   - 
-- REVUE DE CODE: repérez les endroits où pour obtenir une condition dans un IF, on fait appel (ASK) à des propriétés qui ne sont pas dans l'objet courant
+- REVUE DE CODE: repérez les endroits où, pour obtenir une condition dans un IF, on fait appel (ASK) à des propriétés 
+qui ne sont pas dans l'objet courant
   Example:
 ```javascript
     if (
