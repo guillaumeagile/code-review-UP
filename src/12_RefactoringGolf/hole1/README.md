@@ -1,11 +1,10 @@
 # Hole 3 to Hole 4
 
-Change the code in hole 3 to be identical to the code on hole 4, both implenentation and tests can change.
 
 ## Refactorings
 
 - REVUE DE CODE: identify magic strings and numbers
-  - REFACTORING : Introduce constant
+  - REFACTORING : Introduce constant and/or use constant already defined but not used everywhere
 
 ## Tips
 
