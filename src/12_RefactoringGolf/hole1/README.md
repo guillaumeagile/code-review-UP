@@ -1,11 +1,15 @@
-# Hole 10 to Hole 11
-
-Change the code in hole 10 to be identical to the code on hole 11, both implenentation and tests can change.
+# Exo 8
 
 ## Refactorings
 
 - Tackle primitive obssesion
-
+- https://refactoring.guru/smells/primitive-obsession
+- https://www.freecodecamp.org/news/what-is-primitive-obsession/
+- remplacez le type 'number' par un type que vous allez créer et qui va gérer parfaitement la position des pièces sur l'échiquier,
+  - sachant que cette possition est un entier compris en 1 et 3
+  - vous pouvez écrire un Value Object https://talesfrom.dev/blog/modeling-value-objects-in-typescript
+  - vous pouvez aussi utiliser un enum (plus simple dans ce cas là, car le nombre de possibles est 3)
+ 
 
 
 ## Tips
