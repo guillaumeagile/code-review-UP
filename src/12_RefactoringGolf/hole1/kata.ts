@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-// what's wrong within this code ?? trouvez la variable avec un nom vraiment bizarr
+// what's wrong within this code ?? trouvez la variable avec un nom vraiment bizarre
 
 export class Game {
   private _lastSymbol = ' ';
