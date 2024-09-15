@@ -1,7 +1,5 @@
 # Hole 2 to Hole 3
 
-Change the code in hole 2 to be identical to the code on hole 3, both implenentation and tests can change.
-
 ## Refactorings
 
 - Tackle dead code
