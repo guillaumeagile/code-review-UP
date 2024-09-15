@@ -1,4 +1,42 @@
 # Refactoring Golf
+![illustration code golf]( ./code_golf.png "it's you 😅")
+
+## Instructions
+
+npm install -g npm@latest
+
+nvm install node
+
+### install yarn
+
+https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable
+
+### then, run yarn to install all dependencies
+
+yarn needs to read the package.json file to know the dependencies and the scripts definitions
+
+**THE FOLOWING COMMAND LINES must be typed in a terminal, at the folder PATH where there is the 'package.json' file**
+
+```sh
+yarn install --ignore-engines
+```
+
+### Execute tests
+
+Just run the test suite
+
+```sh
+yarn test
+```
+
+#### Run the test suit with code coverage
+
+```sh
+yarn test:ci
+```
+
+## Game
+
 
 - Start on hole 1 and refactor the code to be like the code in hole 2
   - Use a diff tool to see the differences in code between the starting hole and end hole
@@ -12,15 +50,16 @@
 ## Before you start
 
 - Make sure you have identified as many code smells on the starting hole as possible.
-- Make sure the code builds, and tests are passing `yarn golf`
-- Each hole has its own test script; use `yarn golf1` for the first hole and so on for each hole.
+- Make sure the code builds, and tests are passing `yarn test`
 
 ## First run
 
 - Refactor the code as best as you can.
-  - Using pen and pencil, take note of the following:
-    - For every compilation error you get during or after a refactor, count 1 strike.
-    - For every failing test during or after a refactor, count 2 strikes.
+  - Create your own branch based on 'hole001', for example: 'hole001-review'
+    - Create a pull request
+    - annotate your ideas, remarks on code
+    - do the refactoring
+    - create a Pull Request
 
 ## Second run
 
@@ -79,39 +118,7 @@
   - Parallel inheritance
 
 
-## Instructions
-
-npm install -g npm@latest
-
-nvm install node
-
-### install yarn
-
-https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable
-
-### then, run yarn to install all dependencies
-
-yarn needs to read the package.json file to know the dependencies and the scripts definitions
-
-**THE FOLOWING COMMAND LINES must be typed in a terminal, at the folder PATH where there is the 'package.json' file**
-
-```sh
-yarn install --ignore-engines
-```
-
-### Execute tests
-
-Just run the test suite
-
-```sh
-yarn test
-```
-
-#### Run the test suit with code coverage
-
-```sh
-yarn test:ci
-```
+## Additional Instructions
 
 #### Execute mutation tests
 
