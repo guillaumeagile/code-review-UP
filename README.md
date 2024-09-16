@@ -54,7 +54,7 @@ yarn test:ci
   - push (but don't merge) the pull request to the original repository
 
 - Move to Exo 2 and do the same to refactor the code from Exo 2 to be like the code in Exo 3
-- Apply the same pattern until you reach hole 8
+- Apply the same pattern until you reach Exo 8
 - Remember to keep the code compiling and the tests passing at all times during the refactor
 - For every refactor, run the tests, and if they pass, commit
 - It's okay, and actually heavily encouraged, to revert back to a previous working state at any moment
@@ -67,7 +67,7 @@ yarn test:ci
 ## First run
 
 - Refactor the code as best as you can.
-  - Create your own branch based on 'hole001', for example: 'hole001-review'
+  - Create your own branch based on 'Exo001', for example: 'Exo001-review'
     - Create a pull request
     - annotate your ideas, remarks on code
     - do the refactoring
