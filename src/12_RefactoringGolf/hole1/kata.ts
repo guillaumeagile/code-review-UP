@@ -10,7 +10,7 @@ export class Game {
     //if first move
     if (this._lastSymbol == ' ') {
       //if player is X
-      if (symbol == 'O') {
+      if (symbol == 'O') { //bugfixed ok
         throw new Error('Invalid first player');
       }
     }
