@@ -30,9 +30,7 @@ export class Game {
   public Winner(): string {
     //if the positions in first row are taken
     if (
-      this._toto.TileAt(0, 0)!.Symbol != ' ' &&
-      this._toto.TileAt(0, 1)!.Symbol != ' ' &&
-      this._toto.TileAt(0, 2)!.Symbol != ' '
+      this.firstRowFull()
     ) {
       //if first row is full with same symbol
       if (
@@ -43,11 +41,9 @@ export class Game {
       }
     }
 
-    //if the positions in first row are taken
+    //if the positions in middle row are taken
     if (
-      this._toto.TileAt(1, 0)!.Symbol != ' ' &&
-      this._toto.TileAt(1, 1)!.Symbol != ' ' &&
-      this._toto.TileAt(1, 2)!.Symbol != ' '
+     this.middleRowFull()
     ) {
       //if middle row is full with same symbol
       if (
@@ -58,11 +54,9 @@ export class Game {
       }
     }
 
-    //if the positions in first row are taken
+    //if the positions in bottom row are taken
     if (
-      this._toto.TileAt(2, 0)!.Symbol != ' ' &&
-      this._toto.TileAt(2, 1)!.Symbol != ' ' &&
-      this._toto.TileAt(2, 2)!.Symbol != ' '
+      this.bottomRowFull()
     ) {
       //if middle row is full with same symbol
       if (
@@ -74,6 +68,28 @@ export class Game {
     }
 
     return ' ';
+  }
+  
+  private firstRowFull(): boolean {
+    return (
+      this._toto.TileAt(0, 0)!.Symbol != ' ' &&
+      this._toto.TileAt(0, 1)!.Symbol != ' ' &&
+      this._toto.TileAt(0, 2)!.Symbol != ' '
+    );
+  }
+  private middleRowFull(): boolean {
+    return (
+      this._toto.TileAt(1, 0)!.Symbol != ' ' &&
+      this._toto.TileAt(1, 1)!.Symbol != ' ' &&
+      this._toto.TileAt(1, 2)!.Symbol != ' '
+    );
+  }
+  public bottomRowFull(): boolean {
+    return (
+      this._toto.TileAt(2, 0)!.Symbol != ' ' &&
+      this._toto.TileAt(2, 1)!.Symbol != ' ' &&
+      this._toto.TileAt(2, 2)!.Symbol != ' '
+    );
   }
 }
 
