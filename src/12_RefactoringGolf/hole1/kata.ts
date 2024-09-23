@@ -1,7 +1,7 @@
+const BOARD_SIZE = 3;
 
-const leBonNom = ' ';
 export class Game {
-  private _lastSymbol = leBonNom;
+  private _lastPlayer = ' ';
   private _board: Board = new Board();
 
   public Play(symbol: string, x: number, y: number): void {
@@ -14,118 +14,122 @@ export class Game {
   }
 
   private validateFirstMove(player: string) {
-    if (this._lastSymbol == ' ') {
-      if (player == 'O') {
-        throw new Error('Invalid first player');
-      }
+    if (this._lastPlayer === ' ' && player === 'O') {
+      throw new Error('Invalid first player');
     }
   }
 
   private validatePlayer(player: string) {
-    if (player == this._lastSymbol) {
+    if (player === this._lastPlayer) {
       throw new Error('Invalid next player');
     }
   }
 
   private validatePositionIsEmpty(x: number, y: number) {
-    if (this._board.TileAt(x, y).Symbol != ' ') {
+    if (this._board.getTile(x, y).symbol !== ' ') {
       throw new Error('Invalid position');
     }
   }
 
   private updateLastPlayer(player: string) {
-    this._lastSymbol = player;
+    this._lastPlayer = player;
   }
 
   private updateBoard(player: string, x: number, y: number) {
-    this._board.AddTileAt(player, x, y);
+    this._board.setTile(player, x, y);
   }
 
   public Winner(): string {
-    if (this.isFirstRowFull() && this.isFirstRowFullWithSameSymbol()) {
-      return this._board.TileAt(0, 0)!.Symbol;
+    for (let row = 0; row < BOARD_SIZE; row++) {
+      if (this.isRowFull(row) && this.isRowUniform(row)) {
+        return this._board.getTile(row, 0)!.symbol;
+      }
     }
 
-    if (this.isSecondRowFull() && this.isSecondRowFullWithSameSymbol()) {
-      return this._board.TileAt(1, 0)!.Symbol;
+    for (let col = 0; col < BOARD_SIZE; col++) {
+      if (this.isColumnFull(col) && this.isColumnUniform(col)) {
+        return this._board.getTile(0, col)!.symbol;
+      }
     }
 
-    if (this.isThirdRowFull() && this.isThirdRowFullWithSameSymbol()) {
-      return this._board.TileAt(2, 0)!.Symbol;
+    if (this.isDiagonalFull() && this.isDiagonalUniform()) {
+      return this._board.getTile(0, 0)!.symbol;
+    }
+
+    if (this.isAntiDiagonalFull() && this.isAntiDiagonalUniform()) {
+      return this._board.getTile(0, BOARD_SIZE - 1)!.symbol;
     }
 
     return ' ';
   }
 
-  private isFirstRowFull() {
-    return (
-      this._board.TileAt(0, 0)!.Symbol != ' ' &&
-      this._board.TileAt(0, 1)!.Symbol != ' ' &&
-      this._board.TileAt(0, 2)!.Symbol != ' '
-    );
+  private isRowFull(row: number): boolean {
+    return this._board.getTile(row, 0)!.symbol !== ' ' &&
+           this._board.getTile(row, 1)!.symbol !== ' ' &&
+           this._board.getTile(row, 2)!.symbol !== ' ';
   }
 
-  private isFirstRowFullWithSameSymbol() {
-    return (
-      this._board.TileAt(0, 0)!.Symbol == this._board.TileAt(0, 1)!.Symbol &&
-      this._board.TileAt(0, 2)!.Symbol == this._board.TileAt(0, 1)!.Symbol
-    );
+  private isRowUniform(row: number): boolean {
+    return this._board.getTile(row, 0)!.symbol === this._board.getTile(row, 1)!.symbol &&
+           this._board.getTile(row, 1)!.symbol === this._board.getTile(row, 2)!.symbol;
   }
 
-  private isSecondRowFull() {
-    return (
-      this._board.TileAt(1, 0)!.Symbol != ' ' &&
-      this._board.TileAt(1, 1)!.Symbol != ' ' &&
-      this._board.TileAt(1, 2)!.Symbol != ' '
-    );
+  private isColumnFull(col: number): boolean {
+    return this._board.getTile(0, col)!.symbol !== ' ' &&
+           this._board.getTile(1, col)!.symbol !== ' ' &&
+           this._board.getTile(2, col)!.symbol !== ' ';
   }
 
-  private isSecondRowFullWithSameSymbol() {
-    return (
-      this._board.TileAt(1, 0)!.Symbol == this._board.TileAt(1, 1)!.Symbol &&
-      this._board.TileAt(1, 2)!.Symbol == this._board.TileAt(1, 1)!.Symbol
-    );
+  private isColumnUniform(col: number): boolean {
+    return this._board.getTile(0, col)!.symbol === this._board.getTile(1, col)!.symbol &&
+           this._board.getTile(1, col)!.symbol === this._board.getTile(2, col)!.symbol;
   }
 
-  private isThirdRowFull() {
-    return (
-      this._board.TileAt(2, 0)!.Symbol != ' ' &&
-      this._board.TileAt(2, 1)!.Symbol != ' ' &&
-      this._board.TileAt(2, 2)!.Symbol != ' '
-    );
+  private isDiagonalFull(): boolean {
+    return this._board.getTile(0, 0)!.symbol !== ' ' &&
+           this._board.getTile(1, 1)!.symbol !== ' ' &&
+           this._board.getTile(2, 2)!.symbol !== ' ';
   }
 
-  private isThirdRowFullWithSameSymbol() {
-    return (
-      this._board.TileAt(2, 0)!.Symbol == this._board.TileAt(2, 1)!.Symbol &&
-      this._board.TileAt(2, 2)!.Symbol == this._board.TileAt(2, 1)!.Symbol
-    );
+  private isDiagonalUniform(): boolean {
+    return this._board.getTile(0, 0)!.symbol === this._board.getTile(1, 1)!.symbol &&
+           this._board.getTile(1, 1)!.symbol === this._board.getTile(2, 2)!.symbol;
+  }
+
+  private isAntiDiagonalFull(): boolean {
+    return this._board.getTile(0, 2)!.symbol !== ' ' &&
+           this._board.getTile(1, 1)!.symbol !== ' ' &&
+           this._board.getTile(2, 0)!.symbol !== ' ';
+  }
+
+  private isAntiDiagonalUniform(): boolean {
+    return this._board.getTile(0, 2)!.symbol === this._board.getTile(1, 1)!.symbol &&
+           this._board.getTile(1, 1)!.symbol === this._board.getTile(2, 0)!.symbol;
   }
 }
 
 interface Tile {
-  X: number;
-  Y: number;
-  Symbol: string;
+  x: number;
+  y: number;
+  symbol: string;
 }
 
 class Board {
-  private _plays: Tile[] = [];
+  private _tiles: Tile[] = [];
 
   constructor() {
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
-        const tile: Tile = { X: i, Y: j, Symbol: ' ' };
-        this._plays.push(tile);
+    for (let i = 0; i < BOARD_SIZE; i++) {
+      for (let j = 0; j < BOARD_SIZE; j++) {
+        this._tiles.push({ x: i, y: j, symbol: ' ' });
       }
     }
   }
 
-  public TileAt(x: number, y: number): Tile {
-    return this._plays.find((t: Tile) => t.X == x && t.Y == y)!;
+  public getTile(x: number, y: number): Tile {
+    return this._tiles.find(tile => tile.x === x && tile.y === y)!;
   }
 
-  public AddTileAt(symbol: string, x: number, y: number): void {
-    this._plays.find((t: Tile) => t.X == x && t.Y == y)!.Symbol = symbol;
+  public setTile(symbol: string, x: number, y: number): void {
+    this.getTile(x, y).symbol = symbol;
   }
 }
