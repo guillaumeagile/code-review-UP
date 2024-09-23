@@ -1,7 +1,7 @@
-/* eslint-disable */
 
+const leBonNom = ' ';
 export class Game {
-  private _lastSymbol = ' ';
+  private _lastSymbol = leBonNom;
   private _board: Board = new Board();
 
   public Play(symbol: string, x: number, y: number): void {
@@ -43,15 +43,15 @@ export class Game {
 
   public Winner(): string {
     if (this.isFirstRowFull() && this.isFirstRowFullWithSameSymbol()) {
-      return this._board.TileAt(0, 0).Symbol;
+      return this._board.TileAt(0, 0)!.Symbol;
     }
 
     if (this.isSecondRowFull() && this.isSecondRowFullWithSameSymbol()) {
-      return this._board.TileAt(1, 0).Symbol;
+      return this._board.TileAt(1, 0)!.Symbol;
     }
 
     if (this.isThirdRowFull() && this.isThirdRowFullWithSameSymbol()) {
-      return this._board.TileAt(2, 0).Symbol;
+      return this._board.TileAt(2, 0)!.Symbol;
     }
 
     return ' ';
@@ -59,46 +59,46 @@ export class Game {
 
   private isFirstRowFull() {
     return (
-      this._board.TileAt(0, 0).Symbol != ' ' &&
-      this._board.TileAt(0, 1).Symbol != ' ' &&
-      this._board.TileAt(0, 2).Symbol != ' '
+      this._board.TileAt(0, 0)!.Symbol != ' ' &&
+      this._board.TileAt(0, 1)!.Symbol != ' ' &&
+      this._board.TileAt(0, 2)!.Symbol != ' '
     );
   }
 
   private isFirstRowFullWithSameSymbol() {
     return (
-      this._board.TileAt(0, 0).Symbol == this._board.TileAt(0, 1).Symbol &&
-      this._board.TileAt(0, 2).Symbol == this._board.TileAt(0, 1).Symbol
+      this._board.TileAt(0, 0)!.Symbol == this._board.TileAt(0, 1)!.Symbol &&
+      this._board.TileAt(0, 2)!.Symbol == this._board.TileAt(0, 1)!.Symbol
     );
   }
 
   private isSecondRowFull() {
     return (
-      this._board.TileAt(1, 0).Symbol != ' ' &&
-      this._board.TileAt(1, 1).Symbol != ' ' &&
-      this._board.TileAt(1, 2).Symbol != ' '
+      this._board.TileAt(1, 0)!.Symbol != ' ' &&
+      this._board.TileAt(1, 1)!.Symbol != ' ' &&
+      this._board.TileAt(1, 2)!.Symbol != ' '
     );
   }
 
   private isSecondRowFullWithSameSymbol() {
     return (
-      this._board.TileAt(1, 0).Symbol == this._board.TileAt(1, 1).Symbol &&
-      this._board.TileAt(1, 2).Symbol == this._board.TileAt(1, 1).Symbol
+      this._board.TileAt(1, 0)!.Symbol == this._board.TileAt(1, 1)!.Symbol &&
+      this._board.TileAt(1, 2)!.Symbol == this._board.TileAt(1, 1)!.Symbol
     );
   }
 
   private isThirdRowFull() {
     return (
-      this._board.TileAt(2, 0).Symbol != ' ' &&
-      this._board.TileAt(2, 1).Symbol != ' ' &&
-      this._board.TileAt(2, 2).Symbol != ' '
+      this._board.TileAt(2, 0)!.Symbol != ' ' &&
+      this._board.TileAt(2, 1)!.Symbol != ' ' &&
+      this._board.TileAt(2, 2)!.Symbol != ' '
     );
   }
 
   private isThirdRowFullWithSameSymbol() {
     return (
-      this._board.TileAt(2, 0).Symbol == this._board.TileAt(2, 1).Symbol &&
-      this._board.TileAt(2, 2).Symbol == this._board.TileAt(2, 1).Symbol
+      this._board.TileAt(2, 0)!.Symbol == this._board.TileAt(2, 1)!.Symbol &&
+      this._board.TileAt(2, 2)!.Symbol == this._board.TileAt(2, 1)!.Symbol
     );
   }
 }
@@ -125,7 +125,7 @@ class Board {
     return this._plays.find((t: Tile) => t.X == x && t.Y == y)!;
   }
 
-  public AddTileAt(symbol: string, x: number, y: number): void {     //@ts-ignore
+  public AddTileAt(symbol: string, x: number, y: number): void {
     this._plays.find((t: Tile) => t.X == x && t.Y == y)!.Symbol = symbol;
   }
 
