@@ -28,48 +28,19 @@ export class Game {
   }
 
   public Winner(): string {
-    //if the positions in first row are taken
-    if (
-      this._toto.TileAt(0, 0)!.Symbol != ' ' &&
-      this._toto.TileAt(0, 1)!.Symbol != ' ' &&
-      this._toto.TileAt(0, 2)!.Symbol != ' '
-    ) {
-      //if first row is full with same symbol
+    for (let i=0;i<3;i++) {
       if (
-        this._toto.TileAt(0, 0)!.Symbol == this._toto.TileAt(0, 1)!.Symbol &&
-        this._toto.TileAt(0, 2)!.Symbol == this._toto.TileAt(0, 1)!.Symbol
+          this._toto.TileAt(i, 0)!.Symbol != ' ' &&
+          this._toto.TileAt(i, 1)!.Symbol != ' ' &&
+          this._toto.TileAt(i, 2)!.Symbol != ' '
       ) {
-        return this._toto.TileAt(0, 0)!.Symbol;
-      }
-    }
-
-    //if the positions in first row are taken
-    if (
-      this._toto.TileAt(1, 0)!.Symbol != ' ' &&
-      this._toto.TileAt(1, 1)!.Symbol != ' ' &&
-      this._toto.TileAt(1, 2)!.Symbol != ' '
-    ) {
-      //if middle row is full with same symbol
-      if (
-        this._toto.TileAt(1, 0)!.Symbol == this._toto.TileAt(1, 1)!.Symbol &&
-        this._toto.TileAt(1, 2)!.Symbol == this._toto.TileAt(1, 1)!.Symbol
-      ) {
-        return this._toto.TileAt(1, 0)!.Symbol;
-      }
-    }
-
-    //if the positions in first row are taken
-    if (
-      this._toto.TileAt(2, 0)!.Symbol != ' ' &&
-      this._toto.TileAt(2, 1)!.Symbol != ' ' &&
-      this._toto.TileAt(2, 2)!.Symbol != ' '
-    ) {
-      //if middle row is full with same symbol
-      if (
-        this._toto.TileAt(2, 0)!.Symbol == this._toto.TileAt(2, 1)!.Symbol &&
-        this._toto.TileAt(2, 2)!.Symbol == this._toto.TileAt(2, 1)!.Symbol
-      ) {
-        return this._toto.TileAt(2, 0)!.Symbol;
+        //if first row is full with same symbol
+        if (
+            this._toto.TileAt(i, 0)!.Symbol == this._toto.TileAt(i, 1)!.Symbol &&
+            this._toto.TileAt(i, 2)!.Symbol == this._toto.TileAt(i, 1)!.Symbol
+        ) {
+          return this._toto.TileAt(i, 0)!.Symbol;
+        }
       }
     }
 
