@@ -84,13 +84,15 @@ export class Game {
       this._toto.TileAt(1, 2)!.Symbol != ' '
     );
   }
-  public bottomRowFull(): boolean {
+  private bottomRowFull(): boolean {
     return (
       this._toto.TileAt(2, 0)!.Symbol != ' ' &&
       this._toto.TileAt(2, 1)!.Symbol != ' ' &&
       this._toto.TileAt(2, 2)!.Symbol != ' '
     );
   }
+  
+
 }
 
 interface Tile {
