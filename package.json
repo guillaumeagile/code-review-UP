@@ -33,7 +33,7 @@
     "test:ci": "jest test --watchAll=false --coverage=true",
     "mutants": "stryker run",
     "watch": "jest --watch",
-    "golf1": "jest -i src/12_RefactoringGolf/hole1/ --watchAll=true"
+    "golf1": "jest -i src/12_RefactoringGolf/exo3/ --watchAll=true"
   },
   "dependencies": {},
   "devDependencies": {
