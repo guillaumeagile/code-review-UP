@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-// améliore ce code
+// read the code
 export class Game {
   private _lastSymbol = ' ';
   private _toto: Board = new Board();
@@ -43,7 +43,7 @@ export class Game {
       }
     }
 
-    //if the positions in first row are taken
+    //if the positions in 2nd row are taken
     if (
       this._toto.TileAt(1, 0)!.Symbol != ' ' &&
       this._toto.TileAt(1, 1)!.Symbol != ' ' &&
@@ -58,7 +58,7 @@ export class Game {
       }
     }
 
-    //if the positions in first row are taken
+    //if the positions in 2nd row are taken
     if (
       this._toto.TileAt(2, 0)!.Symbol != ' ' &&
       this._toto.TileAt(2, 1)!.Symbol != ' ' &&
@@ -106,3 +106,6 @@ class Board {
     this._plays.find((t: Tile) => t.X == x && t.Y == y)!.Symbol = symbol;
   }
 }
+// create a PR, fix indentation first , commit and push
+// make your comments, then refactor
+// submit your PR for review
