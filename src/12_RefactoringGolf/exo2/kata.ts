@@ -16,7 +16,7 @@ this.updateBoard(symbol, x, y);
 private validateFirstMove(player: string) {
 if (this._lastSymbol == ' ') {
   if (player == 'O') {
-    throw new Error('Invalid first player');
+    throw new Error('Invalid first player'); // try to return nothing
   }
 }
 }

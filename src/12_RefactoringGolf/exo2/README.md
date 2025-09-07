@@ -1,9 +1,18 @@
-# Exo 2 to Exo 3
+# Exo 2 : Code Coverage
 
-## Refactorings
+## Improve code coverage (add missing tests) 
 
-- Tackle dead code
-  - Delete dead code
+- incomplete coverage: 
+  - there is (at least) one method that is not covered by tests :
+  - try to replace value returned by private method by a constant (like 0 or 42)
+      - see if tests fail or not
+      - if all tests are still green while code has changed, it means you have nothing to prevent a regression
+      
+  
+  example: try to see what happen if `validateFirstMove` does not throw an error when the first player is X
+   
+ find out which method, when its returned value is changed, does not break any tests
+      - add a test to prevent that possible regression
 
 ## Tips
 
