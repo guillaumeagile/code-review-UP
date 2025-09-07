@@ -36,6 +36,10 @@ yarn test
 yarn test:ci
 ```
 
+## Don't panic, you're still on branch 'main'
+
+that's why some tests are failing
+
 # Fight the code smells
 - https://www.opsera.io/blog/what-is-code-smell
 - https://blog.codinghorror.com/code-smells/
