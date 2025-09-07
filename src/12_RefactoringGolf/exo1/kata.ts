@@ -44,11 +44,7 @@ export class Game {
         }
 
         //if the positions in first row are taken
-        if (
-            this._toto.TileAt(1, 0)!.Symbol != ' ' &&
-            this._toto.TileAt(1, 1)!.Symbol != ' ' &&
-            this._toto.TileAt(1, 2)!.Symbol != ' '
-        ) {
+        if (this.ifthepositionsinfirstrowaretaken()) {
             //if middle row is full with same symbol
             if (
                 this._toto.TileAt(1, 0)!.Symbol == this._toto.TileAt(1, 1)!.Symbol &&
@@ -74,6 +70,12 @@ export class Game {
         }
 
         return ' ';
+    }
+
+    private ifthepositionsinfirstrowaretaken() {
+        return this._toto.TileAt(1, 0)!.Symbol != ' ' &&
+            this._toto.TileAt(1, 1)!.Symbol != ' ' &&
+            this._toto.TileAt(1, 2)!.Symbol != ' ';
     }
 }
 
