@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-// améliore ce code
+// read the code
 export class Game {
   private _lastSymbol = ' ';
   private _toto: Board = new Board();
@@ -106,3 +106,6 @@ class Board {
     this._plays.find((t: Tile) => t.X == x && t.Y == y)!.Symbol = symbol;
   }
 }
+// create a PR
+// make your comments, then refactor
+// submit your PR for review
