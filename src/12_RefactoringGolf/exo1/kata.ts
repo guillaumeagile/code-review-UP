@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-// read the code
+// lecture du code dans github
 export class Game {
   private _lastSymbol = ' ';
   private _toto: Board = new Board();
