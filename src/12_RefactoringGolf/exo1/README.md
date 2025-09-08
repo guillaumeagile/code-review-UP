@@ -4,8 +4,8 @@
 ## Refactorings
 
 - Tackle code comments, long method and large class
-  - Extract method where there is a comment 
-  - Extract when, logically, you can divide a method that is too long, into sub methods
+- Extract method where there is a comment 
+- Extract when, logically, you can divide a method that is too long, into sub methods
 
 ## Tips
 
@@ -15,8 +15,8 @@
 ### While refactoring
 
 - Stay in the green while refactoring; no failing tests
-  - Run the tests after each refactor
-    - Check all tests still pass
-    - Check code coverage has not dropped
+- Run the tests after each refactor
+- Check all tests still pass
+- Check code coverage has not dropped
 - Commit after each refactor
 - In case of persistent compilation errors or test fails, use `git reset` to go back to green
