@@ -138,6 +138,9 @@ yarn watch
 
 ## Explanations, References
 
+Cours SOLID de Isabelle Blasquez (IUT Limoges)
+https://github.com/iblasquez/enseignement-but2-developpement/blob/master/cours/SOLID.pdf
+
 
 https://blog.logrocket.com/using-prettier-eslint-automate-formatting-fixing-javascript/#differences-between-eslint-prettier
 
