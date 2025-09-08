@@ -78,7 +78,6 @@
   - Speculative generality
   - Parallel inheritance
 
-
 ## Instructions
 
 npm install -g npm@latest
