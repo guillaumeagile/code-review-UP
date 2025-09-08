@@ -1,10 +1,9 @@
 # Exo 1 to Exo 2
 
-
 ## Refactorings
 
 - Tackle code comments, long method and large class
-  - Extract method where there is a comment 
+  - Extract method where there is a comment
   - Extract when, logically, you can divide a method that is too long, into sub methods
 
 ## Tips
