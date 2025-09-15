@@ -4,7 +4,7 @@
 ## Refactorings
 
 - REVUE DE CODE: identify magic strings and numbers
-  - REFACTORING : Introduce constant and/or use constant already defined but not used everywhere
+- REFACTORING : Introduce constant and/or use constant already defined but not used everywhere
 
 ## Tips
 
