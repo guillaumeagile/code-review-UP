@@ -13,7 +13,7 @@
       - Function Scope or Class Scope
       - Local Scope or Block scope
   - Déplacez les pour qu'elles ne soient pas globales mais utilisées aux seuls endroits où on en a besoin
-  
+
 - Tackle duplication
   - Introduce more generic methods to replace duplicated methods
   - il y a des méthodes qui font la meme chose, trouvez les, et en les rendant à peine plus générique, réduisez le code dupliqué au strict nécessaire.
