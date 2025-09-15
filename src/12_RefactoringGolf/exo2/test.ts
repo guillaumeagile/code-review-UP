@@ -109,4 +109,10 @@ describe('TicTacToe game', () => {
 
     expect(winner).toBe('O');
   });
+
+  it('should return empty winner on empty board', () => {
+    // board just created in beforeEach, no moves played
+    const winner = game.Winner();
+    expect(winner).toBe(' ');
+  });
 });
