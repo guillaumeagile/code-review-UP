@@ -109,4 +109,20 @@ describe("TicTacToe game", () => {
 
     expect(winner).toBe("O");
   });
+
+  it("should declare no player as winner if no row is full of the same symbol", () => {
+    game.Play("X", 0, 0);
+    game.Play("O", 0, 2);
+    game.Play("X", 0, 1);
+    game.Play("O", 1, 2);
+    game.Play("X", 1, 0);
+    game.Play("0", 1, 1);
+    game.Play("X", 2, 0);
+    game.Play("O", 2, 1);
+    game.Play("X", 2, 2);
+
+    const winner = game.Winner();
+
+    expect(winner).toBe(" ");
+  });
 });
