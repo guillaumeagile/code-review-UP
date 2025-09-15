@@ -6,73 +6,60 @@ export class Game {
     private _toto: Board = new Board();
 
     public Play(symbol: string, x: number, y: number): void {
-        //if first move
+        this.checkFirstMove(symbol);
+        this.checkNextPlayer(symbol);
+        this.checkPosition(x, y);
+        this.updateGameState(symbol, x, y);
+    }
+
+    private checkFirstMove(symbol: string): void {
         if (this._lastSymbol == ' ') {
-            //if player is X
             if (symbol == 'O') {
                 throw new Error('Invalid first player');
             }
         }
-        //if not first move but player repeated
-        else if (symbol == this._lastSymbol) {
+    }
+
+    private checkNextPlayer(symbol: string): void {
+        if (this._lastSymbol != ' ' && symbol == this._lastSymbol) {
             throw new Error('Invalid next player');
         }
-        //if not first move but play on an already played tile
-        else if (this._toto.TileAt(x, y).Symbol != ' ') {
+    }
+
+    private checkPosition(x: number, y: number): void {
+        if (this._lastSymbol != ' ' && this._toto.TileAt(x, y).Symbol != ' ') {
             throw new Error('Invalid position');
         }
+    }
 
-        // update game state
+    private updateGameState(symbol: string, x: number, y: number): void {
         this._lastSymbol = symbol;
         this._toto.AddTileAt(symbol, x, y);
     }
 
     public Winner(): string {
-        //if the positions in first row are taken
+        const winnerRow0 = this.checkRowWinner(0);
+        if (winnerRow0 !== ' ') return winnerRow0;
+        const winnerRow1 = this.checkRowWinner(1);
+        if (winnerRow1 !== ' ') return winnerRow1;
+        const winnerRow2 = this.checkRowWinner(2);
+        if (winnerRow2 !== ' ') return winnerRow2;
+        return ' ';
+    }
+
+    private checkRowWinner(row: number): string {
         if (
-            this._toto.TileAt(0, 0)!.Symbol != ' ' &&
-            this._toto.TileAt(0, 1)!.Symbol != ' ' &&
-            this._toto.TileAt(0, 2)!.Symbol != ' '
+            this._toto.TileAt(row, 0)!.Symbol != ' ' &&
+            this._toto.TileAt(row, 1)!.Symbol != ' ' &&
+            this._toto.TileAt(row, 2)!.Symbol != ' '
         ) {
-            //if first row is full with same symbol
             if (
-                this._toto.TileAt(0, 0)!.Symbol == this._toto.TileAt(0, 1)!.Symbol &&
-                this._toto.TileAt(0, 2)!.Symbol == this._toto.TileAt(0, 1)!.Symbol
+                this._toto.TileAt(row, 0)!.Symbol == this._toto.TileAt(row, 1)!.Symbol &&
+                this._toto.TileAt(row, 2)!.Symbol == this._toto.TileAt(row, 1)!.Symbol
             ) {
-                return this._toto.TileAt(0, 0)!.Symbol;
+                return this._toto.TileAt(row, 0)!.Symbol;
             }
         }
-
-        //if the positions in 2nd row are taken
-        if (
-            this._toto.TileAt(1, 0)!.Symbol != ' ' &&
-            this._toto.TileAt(1, 1)!.Symbol != ' ' &&
-            this._toto.TileAt(1, 2)!.Symbol != ' '
-        ) {
-            //if middle row is full with same symbol
-            if (
-                this._toto.TileAt(1, 0)!.Symbol == this._toto.TileAt(1, 1)!.Symbol &&
-                this._toto.TileAt(1, 2)!.Symbol == this._toto.TileAt(1, 1)!.Symbol
-            ) {
-                return this._toto.TileAt(1, 0)!.Symbol;
-            }
-        }
-
-        //if the positions in 3rd row are taken
-        if (
-            this._toto.TileAt(2, 0)!.Symbol != ' ' &&
-            this._toto.TileAt(2, 1)!.Symbol != ' ' &&
-            this._toto.TileAt(2, 2)!.Symbol != ' '
-        ) {
-            //if last row is full with same symbol
-            if (
-                this._toto.TileAt(2, 0)!.Symbol == this._toto.TileAt(2, 1)!.Symbol &&
-                this._toto.TileAt(2, 2)!.Symbol == this._toto.TileAt(2, 1)!.Symbol
-            ) {
-                return this._toto.TileAt(2, 0)!.Symbol;
-            }
-        }
-
         return ' ';
     }
 }
@@ -107,7 +94,7 @@ class Board {
 }
 // create a PR,
 // fix indentation first
-//  commit and push
+// commit and push
 // make your comments,
 // then refactor
 // submit your PR for review
