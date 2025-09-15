@@ -1,7 +1,7 @@
 pour chaque groupe participants:
 
 NOM prenom 
- - x
- - y
- - 7
-...
+ - MIEGEMOLLE Romain
+ - DEHER Enzo
+ - PARIEL-ABADIE Florian
+ - SANSUS Mathys
