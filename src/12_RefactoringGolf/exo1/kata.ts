@@ -6,18 +6,23 @@ export class Game {
   private _board: Board = new Board();
 
   public Play(symbol: string, x: number, y: number): void {
-    this.validateFirstMove(symbol);
-    this.validatePlayerRotation(symbol);
-    this.validatePosition(x, y);
+    if (this.isFirstMove()) {
+      this.validateFirstPlayer(symbol);
+    } else {
+      this.validatePlayerRotation(symbol);
+      this.validatePosition(x, y);
+    }
 
     this.updateGameState(symbol, x, y);
   }
 
-  private validateFirstMove(symbol: string): void {
-    if (this._lastSymbol == " ") {
-      if (symbol == "O") {
-        throw new Error("Invalid first player");
-      }
+  private isFirstMove(): boolean {
+    return this._lastSymbol == " ";
+  }
+
+  private validateFirstPlayer(symbol: string): void {
+    if (symbol == "O") {
+      throw new Error("Invalid first player");
     }
   }
 
