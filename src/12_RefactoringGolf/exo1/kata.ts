@@ -1,6 +1,5 @@
 /* eslint-disable */
 
-// read the code
 export class Game {
   private _lastSymbol = " ";
   private _board: Board = new Board();
@@ -106,9 +105,3 @@ class Board {
     this._plays.find((t: Tile) => t.X == x && t.Y == y)!.Symbol = symbol;
   }
 }
-// create a PR,
-// fix indentation first
-//  commit and push
-// make your comments,
-// then refactor
-// submit your PR for review
