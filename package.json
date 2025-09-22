@@ -35,7 +35,9 @@
     "watch": "jest --watch",
     "golf1": "jest -i src/12_RefactoringGolf/exo5/ --watchAll=true"
   },
-  "dependencies": {},
+  "dependencies": {
+    "node": "^24.8.0"
+  },
   "devDependencies": {
     "@commitlint/cli": "^18.4.2",
     "@commitlint/config-conventional": "^18.4.2",
