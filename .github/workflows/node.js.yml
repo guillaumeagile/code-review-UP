@@ -18,14 +18,13 @@ jobs:
         with:
           node-version: "18.x"
       - run: npm install -g yarn@1
-      - run: yarn install 
+      - run: yarn install
       - name: Linting and prettifying
         run: |
           yarn
           yarn lint
           yarn prettier:ci
-#        working-directory: ./
-
+  #        working-directory: ./
   build:
     runs-on: ubuntu-latest
 

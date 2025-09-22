@@ -7,8 +7,8 @@ const firstColumn = 0;
 const secondColumn = 1;
 const thirdColumn = 2;
 
-const playerO = 'O';
-const noPlayer = ' ';
+const playerO = "O";
+const noPlayer = " ";
 
 export class Game {
   private _lastPlayer = noPlayer;
@@ -26,20 +26,20 @@ export class Game {
   private validateFirstMove(player: string) {
     if (this._lastPlayer == noPlayer) {
       if (player == playerO) {
-        throw new Error('Invalid first player');
+        throw new Error("Invalid first player");
       }
     }
   }
 
   private validatePlayer(player: string) {
     if (player == this._lastPlayer) {
-      throw new Error('Invalid next player');
+      throw new Error("Invalid next player");
     }
   }
 
   private validatePositionIsEmpty(x: number, y: number) {
     if (this._board.isTilePlayedAt(x, y)) {
-      throw new Error('Invalid position');
+      throw new Error("Invalid position");
     }
   }
 
@@ -100,12 +100,15 @@ class Board {
   }
 
   public isTilePlayedAt(x: number, y: number) {
-    return this._plays.find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, noPlayer)))!
-      .isNotEmpty;
+    return this._plays.find((t: Tile) =>
+      t.hasSameCoordinatesAs(new Tile(x, y, noPlayer)),
+    )!.isNotEmpty;
   }
 
   public AddTileAt(tile: Tile): void {
-    this._plays.find((t: Tile) => t.hasSameCoordinatesAs(tile))!.updatePlayer(tile.Player);
+    this._plays
+      .find((t: Tile) => t.hasSameCoordinatesAs(tile))!
+      .updatePlayer(tile.Player);
   }
 
   public findRowFullWithSamePlayer(): string {
@@ -133,7 +136,9 @@ class Board {
   }
 
   private TileAt(x: number, y: number): Tile {
-    return this._plays.find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, noPlayer)))!;
+    return this._plays.find((t: Tile) =>
+      t.hasSameCoordinatesAs(new Tile(x, y, noPlayer)),
+    )!;
   }
 
   private isRowFull(row: number) {
