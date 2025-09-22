@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 const firstRow = 0;
 const secondRow = 1;
 const thirdRow = 2;
@@ -20,7 +18,7 @@ export class Game {
     this.validatePositionIsEmpty(x, y);
 
     this.updateLastPlayer(player);
-    this.updateBoard(player, x, y);
+    this.updateBoard(new Tile(x, y, player));
   }
 
   private validateFirstMove(player: string) {
@@ -47,8 +45,8 @@ export class Game {
     this._lastPlayer = player;
   }
 
-  private updateBoard(player: string, x: number, y: number) {
-    this._board.AddTileAt(new Tile(x, y, player));
+  private updateBoard(tile: Tile) {
+    this._board.AddTileAt(tile);
   }
 
   public Winner(): string {
