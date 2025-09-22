@@ -3,16 +3,7 @@
 export class Game {
   private _lastSymbol = ' ';
   private _board: Board = new Board();
-
-  private readonly playerO = 'O';
   private readonly emptyPlay = ' ';
-
-  private readonly firstRow = 0;
-  private readonly secondRow = 1;
-  private readonly thirdRow = 2;
-  private readonly firstColumn = 0;
-  private readonly secondColumn = 1;
-  private readonly thirdColumn = 2;
 
   public Play(symbol: string, x: number, y: number): void {
     this.validateFirstMove(symbol);
@@ -24,10 +15,8 @@ export class Game {
   }
 
   private validateFirstMove(player: string) {
-    if (this._lastSymbol == this.emptyPlay) {
-      if (player == this.playerO) {
-        throw new Error('Invalid first player');
-      }
+    if (this._lastSymbol == this.emptyPlay && player == 'O') {
+      throw new Error('Invalid first player');
     }
   }
 
@@ -52,70 +41,27 @@ export class Game {
   }
 
   public Winner(): string {
-    if (this.isFirstRowFull() && this.isFirstRowFullWithSameSymbol()) {
-      return this._board.TileAt(this.firstRow, this.firstColumn)!.Symbol;
-    }
-
-    if (this.isSecondRowFull() && this.isSecondRowFullWithSameSymbol()) {
-      return this._board.TileAt(this.secondRow, this.firstColumn)!.Symbol;
-    }
-
-    if (this.isThirdRowFull() && this.isThirdRowFullWithSameSymbol()) {
-      return this._board.TileAt(this.thirdRow, this.firstColumn)!.Symbol;
+    for (let row = 0; row < 3; row++) {
+      if (this.isRowFull(row) && this.isRowFullWithSameSymbol(row)) {
+        return this._board.TileAt(row, 0)!.Symbol;
+      }
     }
 
     return this.emptyPlay;
   }
-
-  private isFirstRowFull() {
+  private isRowFull(row: number) {
     return (
-      this._board.TileAt(this.firstRow, this.firstColumn)!.Symbol != this.emptyPlay &&
-      this._board.TileAt(this.firstRow, this.secondColumn)!.Symbol != this.emptyPlay &&
-      this._board.TileAt(this.firstRow, this.thirdColumn)!.Symbol != this.emptyPlay
+      this._board.TileAt(row, 0)!.Symbol != this.emptyPlay &&
+      this._board.TileAt(row, 1)!.Symbol != this.emptyPlay &&
+      this._board.TileAt(row, 2)!.Symbol != this.emptyPlay
     );
   }
 
-  private isFirstRowFullWithSameSymbol() {
-    return (
-      this._board.TileAt(this.firstRow, this.firstColumn)!.Symbol ==
-        this._board.TileAt(this.firstRow, this.secondColumn)!.Symbol &&
-      this._board.TileAt(this.firstRow, this.thirdColumn)!.Symbol ==
-        this._board.TileAt(this.firstRow, this.secondColumn)!.Symbol
-    );
-  }
-
-  private isSecondRowFull() {
-    return (
-      this._board.TileAt(this.secondRow, this.firstColumn)!.Symbol != this.emptyPlay &&
-      this._board.TileAt(this.secondRow, this.secondColumn)!.Symbol != this.emptyPlay &&
-      this._board.TileAt(this.secondRow, this.thirdColumn)!.Symbol != this.emptyPlay
-    );
-  }
-
-  private isSecondRowFullWithSameSymbol() {
-    return (
-      this._board.TileAt(this.secondRow, this.firstColumn)!.Symbol ==
-        this._board.TileAt(this.secondRow, this.secondColumn)!.Symbol &&
-      this._board.TileAt(this.secondRow, this.thirdColumn)!.Symbol ==
-        this._board.TileAt(this.secondRow, this.secondColumn)!.Symbol
-    );
-  }
-
-  private isThirdRowFull() {
-    return (
-      this._board.TileAt(this.thirdRow, this.firstColumn)!.Symbol != this.emptyPlay &&
-      this._board.TileAt(this.thirdRow, this.secondColumn)!.Symbol != this.emptyPlay &&
-      this._board.TileAt(this.thirdRow, this.thirdColumn)!.Symbol != this.emptyPlay
-    );
-  }
-
-  private isThirdRowFullWithSameSymbol() {
-    return (
-      this._board.TileAt(this.thirdRow, this.firstColumn)!.Symbol ==
-        this._board.TileAt(this.thirdRow, this.secondColumn)!.Symbol &&
-      this._board.TileAt(this.thirdRow, this.thirdColumn)!.Symbol ==
-        this._board.TileAt(this.thirdRow, this.secondColumn)!.Symbol
-    );
+  private isRowFullWithSameSymbol(row: number) {
+    const s0 = this._board.TileAt(row, 0)!.Symbol;
+    const s1 = this._board.TileAt(row, 1)!.Symbol;
+    const s2 = this._board.TileAt(row, 2)!.Symbol;
+    return s0 == s1 && s2 == s1;
   }
 }
 
