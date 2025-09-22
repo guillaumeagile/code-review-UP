@@ -1,142 +1,146 @@
 /* eslint-disable */
 
-const firstRow = 0;
-const secondRow = 1;
-const thirdRow = 2;
-const firstColumn = 0;
-const secondColumn = 1;
-const thirdColumn = 2;
+// Domain constants for Tic-tac-toe
+const topRow = 0;
+const middleRow = 1;
+const bottomRow = 2;
 
-const playerO = 'O';
-const emptyPlay = ' ';
+const leftColumn = 0;
+const centerColumn = 1;
+const rightColumn = 2;
+
+const X_MARK = 'X';
+const O_MARK = 'O';
+const EMPTY_MARK = ' ';
 
 export class Game {
-  private _lastSymbol = emptyPlay;
+  private _lastMark = EMPTY_MARK;
   private _board: Board = new Board();
 
-  public Play(symbol: string, x: number, y: number): void {
-    this.validateFirstMove(symbol);
-    this.validatePlayer(symbol);
-    this.validatePositionIsEmpty(x, y);
+  // place a mark (X or O) at given row/column
+  public placeMark(mark: string, row: number, column: number): void {
+    this.validateFirstMove(mark);
+    this.validatePlayer(mark);
+    this.validatePositionIsEmpty(row, column);
 
-    this.updateLastPlayer(symbol);
-    this.updateBoard(symbol, x, y);
+    this.updateLastMark(mark);
+    this.updateBoard(mark, row, column);
   }
 
-  private validateFirstMove(player: string) {
-    if (this._lastSymbol == emptyPlay) {
-      if (player == playerO) {
+  private validateFirstMove(mark: string) {
+    if (this._lastMark == EMPTY_MARK) {
+      if (mark == O_MARK) {
         throw new Error('Invalid first player');
       }
     }
   }
 
-  private validatePlayer(player: string) {
-    if (player == this._lastSymbol) {
+  private validatePlayer(mark: string) {
+    if (mark == this._lastMark) {
       throw new Error('Invalid next player');
     }
   }
 
-  private validatePositionIsEmpty(x: number, y: number) {
-    if (this._board.TileAt(x, y).isNotEmpty) {
+  private validatePositionIsEmpty(row: number, column: number) {
+    if (this._board.cellAt(row, column).isOccupied) {
       throw new Error('Invalid position');
     }
   }
 
-  private updateLastPlayer(player: string) {
-    this._lastSymbol = player;
+  private updateLastMark(mark: string) {
+    this._lastMark = mark;
   }
 
-  private updateBoard(player: string, x: number, y: number) {
-    this._board.AddTileAt(player, x, y);
+  private updateBoard(mark: string, row: number, column: number) {
+    this._board.placeMarkAt(mark, row, column);
   }
 
-  public Winner(): string {
-    return this._board.findRowFullWithSamePlayer();
+  // returns the winning mark ('X' or 'O') or EMPTY_MARK when no winner yet
+  public getWinner(): string {
+    return this._board.findWinningRow();
   }
 }
 
-class Tile {
-  private x: number = 0;
-  private y: number = 0;
-  private symbol: string = ' ';
+class Cell {
+  private row: number = 0;
+  private column: number = 0;
+  private mark: string = EMPTY_MARK;
 
-  constructor(x: number, y: number, symbol: string) {
-    this.x = x;
-    this.y = y;
-    this.symbol = symbol;
+  constructor(row: number, column: number, mark: string) {
+    this.row = row;
+    this.column = column;
+    this.mark = mark;
   }
 
-  get Symbol() {
-    return this.symbol;
+  get Mark() {
+    return this.mark;
   }
 
-  get isNotEmpty() {
-    return this.Symbol !== emptyPlay;
+  get isOccupied() {
+    return this.Mark !== EMPTY_MARK;
   }
 
-  hasSameSymbolAs(other: Tile) {
-    return this.Symbol === other.Symbol;
+  hasSameMarkAs(other: Cell) {
+    return this.Mark === other.Mark;
   }
 
-  hasSameCoordinatesAs(other: Tile) {
-    return this.x == other.x && this.y == other.y;
+  hasSamePositionAs(other: Cell) {
+    return this.row == other.row && this.column == other.column;
   }
 
-  updateSymbol(newSymbol: string) {
-    this.symbol = newSymbol;
+  setMark(newMark: string) {
+    this.mark = newMark;
   }
 }
 
 class Board {
-  private _plays: Tile[] = [];
+  private _cells: Cell[] = [];
 
   constructor() {
-    for (let x = firstRow; x <= thirdRow; x++) {
-      for (let y = firstColumn; y <= thirdColumn; y++) {
-        this._plays.push(new Tile(x, y, emptyPlay));
+    for (let r = topRow; r <= bottomRow; r++) {
+      for (let c = leftColumn; c <= rightColumn; c++) {
+        this._cells.push(new Cell(r, c, EMPTY_MARK));
       }
     }
   }
 
-  public TileAt(x: number, y: number): Tile {
-    return this._plays.find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, emptyPlay)))!;
+  public cellAt(row: number, column: number): Cell {
+    return this._cells.find((t: Cell) => t.hasSamePositionAs(new Cell(row, column, EMPTY_MARK)))!;
   }
 
-  public AddTileAt(symbol: string, x: number, y: number): void {
-    this._plays
-      .find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, symbol)))!
-      .updateSymbol(symbol);
+  public placeMarkAt(mark: string, row: number, column: number): void {
+    this._cells.find((t: Cell) => t.hasSamePositionAs(new Cell(row, column, mark)))!.setMark(mark);
   }
 
-  public findRowFullWithSamePlayer(): string {
-    if (this.isRowFull(firstRow) && this.isRowFullWithSameSymbol(firstRow)) {
-      return this.TileAt(firstRow, firstColumn)!.Symbol;
+  // Only checks horizontal rows (matches original behaviour)
+  public findWinningRow(): string {
+    if (this.isRowFull(topRow) && this.isRowFullWithSameMark(topRow)) {
+      return this.cellAt(topRow, leftColumn)!.Mark;
     }
 
-    if (this.isRowFull(secondRow) && this.isRowFullWithSameSymbol(secondRow)) {
-      return this.TileAt(secondRow, firstColumn)!.Symbol;
+    if (this.isRowFull(middleRow) && this.isRowFullWithSameMark(middleRow)) {
+      return this.cellAt(middleRow, leftColumn)!.Mark;
     }
 
-    if (this.isRowFull(thirdRow) && this.isRowFullWithSameSymbol(thirdRow)) {
-      return this.TileAt(thirdRow, firstColumn)!.Symbol;
+    if (this.isRowFull(bottomRow) && this.isRowFullWithSameMark(bottomRow)) {
+      return this.cellAt(bottomRow, leftColumn)!.Mark;
     }
 
-    return emptyPlay;
+    return EMPTY_MARK;
   }
 
   private isRowFull(row: number) {
     return (
-      this.TileAt(row, firstColumn)!.isNotEmpty &&
-      this.TileAt(row, secondColumn)!.isNotEmpty &&
-      this.TileAt(row, thirdColumn)!.isNotEmpty
+      this.cellAt(row, leftColumn)!.isOccupied &&
+      this.cellAt(row, centerColumn)!.isOccupied &&
+      this.cellAt(row, rightColumn)!.isOccupied
     );
   }
 
-  private isRowFullWithSameSymbol(row: number) {
+  private isRowFullWithSameMark(row: number) {
     return (
-      this.TileAt(row, firstColumn)!.hasSameSymbolAs(this.TileAt(row, secondColumn)!) &&
-      this.TileAt(row, thirdColumn)!.hasSameSymbolAs(this.TileAt(row, secondColumn)!)
+      this.cellAt(row, leftColumn)!.hasSameMarkAs(this.cellAt(row, centerColumn)!) &&
+      this.cellAt(row, rightColumn)!.hasSameMarkAs(this.cellAt(row, centerColumn)!)
     );
   }
 }
