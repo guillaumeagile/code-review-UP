@@ -58,6 +58,7 @@ interface Tile {
   X: number;
   Y: number;
   Symbol: string;
+  hasSameSymbolAs(other: Tile): boolean;
 }
 
 class Board {
@@ -66,7 +67,9 @@ class Board {
   constructor() {
     for (let i = firstRow; i <= thirdRow; i++) {
       for (let j = firstColumn; j <= thirdColumn; j++) {
-        const tile: Tile = { X: i, Y: j, Symbol: emptyPlay };
+        const tile: Tile = { X: i, Y: j, Symbol: emptyPlay, hasSameSymbolAs: function (other: Tile): boolean {
+          return this.Symbol == other.Symbol;
+        } };
         this._plays.push(tile);
       }
     }
@@ -97,19 +100,20 @@ class Board {
   }
 
   private isRowFull(row: number) {
+    const emptyTile: Tile = { X: -1, Y: -1, Symbol: emptyPlay, hasSameSymbolAs: function (other: Tile): boolean {
+      return this.Symbol == other.Symbol;
+    } };
     return (
-      this.TileAt(row, firstColumn)!.Symbol != emptyPlay &&
-      this.TileAt(row, secondColumn)!.Symbol != emptyPlay &&
-      this.TileAt(row, thirdColumn)!.Symbol != emptyPlay
+      !this.TileAt(row, firstColumn)!.hasSameSymbolAs(emptyTile) &&
+      !this.TileAt(row, secondColumn)!.hasSameSymbolAs(emptyTile) &&
+      !this.TileAt(row, thirdColumn)!.hasSameSymbolAs(emptyTile)
     );
   }
 
   private isRowFullWithSameSymbol(row: number) {
     return (
-      this.TileAt(row, firstColumn)!.Symbol ==
-        this.TileAt(row, secondColumn)!.Symbol &&
-      this.TileAt(row, thirdColumn)!.Symbol ==
-        this.TileAt(row, secondColumn)!.Symbol
+      this.TileAt(row, firstColumn)!.hasSameSymbolAs(this.TileAt(row, secondColumn)!) &&
+      this.TileAt(row, thirdColumn)!.hasSameSymbolAs(this.TileAt(row, firstColumn)!)
     );
   }
 }
