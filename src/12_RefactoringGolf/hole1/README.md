@@ -9,7 +9,7 @@
   - sachant que cette possition est un entier compris en 1 et 3
   - vous pouvez écrire un Value Object https://talesfrom.dev/blog/modeling-value-objects-in-typescript
   - vous pouvez aussi utiliser un enum (plus simple dans ce cas là, car le nombre de possibles est 3)
- 
+
 
 
 ## Tips

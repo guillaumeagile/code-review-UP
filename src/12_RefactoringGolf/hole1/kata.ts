@@ -1,18 +1,22 @@
-const firstRow = 0;
-const secondRow = 1;
-const thirdRow = 2;
-const firstColumn = 0;
-const secondColumn = 1;
-const thirdColumn = 2;
+type Pos = 0 | 1 | 2;
+type Player = "X" | "O" | " ";
 
-const playerO = "O";
-const noPlayer = " ";
+const firstRow: Pos = 0;
+const secondRow: Pos = 1;
+const thirdRow: Pos = 2;
+const firstColumn: Pos = 0;
+const secondColumn: Pos = 1;
+const thirdColumn: Pos = 2;
+
+const playerO: Player = "O";
+const noPlayer: Player = " ";
+
 
 export class Game {
   private _lastPlayer = noPlayer;
   private _board: Board = new Board();
 
-  public Play(player: string, x: number, y: number): void {
+  public Play(player: Player, x: Pos, y: Pos): void {
     this.validateFirstMove(player);
     this.validatePlayer(player);
     this.validatePositionIsEmpty(x, y);
@@ -21,7 +25,7 @@ export class Game {
     this.updateBoard(new Tile(x, y, player));
   }
 
-  private validateFirstMove(player: string) {
+  private validateFirstMove(player: Player) {
     if (this._lastPlayer == noPlayer) {
       if (player == playerO) {
         throw new Error("Invalid first player");
@@ -29,19 +33,19 @@ export class Game {
     }
   }
 
-  private validatePlayer(player: string) {
+  private validatePlayer(player: Player) {
     if (player == this._lastPlayer) {
       throw new Error("Invalid next player");
     }
   }
 
-  private validatePositionIsEmpty(x: number, y: number) {
+  private validatePositionIsEmpty(x: Pos, y: Pos) {
     if (this._board.isTilePlayedAt(x, y)) {
       throw new Error("Invalid position");
     }
   }
 
-  private updateLastPlayer(player: string) {
+  private updateLastPlayer(player: Player) {
     this._lastPlayer = player;
   }
 
@@ -49,17 +53,17 @@ export class Game {
     this._board.AddTileAt(tile);
   }
 
-  public Winner(): string {
+  public Winner(): Player {
     return this._board.findRowFullWithSamePlayer();
   }
 }
 
 class Tile {
-  private x: number = 0;
-  private y: number = 0;
-  private player: string = noPlayer;
+  private x: Pos = 0;
+  private y: Pos = 0;
+  private player: Player = noPlayer;
 
-  constructor(x: number, y: number, player: string) {
+  constructor(x: Pos, y: Pos, player: Player) {
     this.x = x;
     this.y = y;
     this.player = player;
@@ -81,7 +85,7 @@ class Tile {
     return this.x == other.x && this.y == other.y;
   }
 
-  updatePlayer(newPlayer: string) {
+  updatePlayer(newPlayer: Player) {
     this.player = newPlayer;
   }
 }
@@ -97,7 +101,7 @@ class Board {
     }
   }
 
-  public isTilePlayedAt(x: number, y: number) {
+  public isTilePlayedAt(x: Pos, y: Pos) {
     return this.findTileAt(new Tile(x, y, noPlayer))!.isNotEmpty;
   }
 
@@ -105,7 +109,7 @@ class Board {
     this.findTileAt(tile)!.updatePlayer(tile.Player);
   }
 
-  public findRowFullWithSamePlayer(): string {
+  public findRowFullWithSamePlayer(): Player {
     if (this.isRowFull(firstRow) && this.isRowFullWithSamePlayer(firstRow)) {
       return this.playerAt(firstRow, firstColumn);
     }
@@ -125,21 +129,21 @@ class Board {
     return this._plays.find((t: Tile) => t.hasSameCoordinatesAs(tile));
   }
 
-  private hasSamePlayer(x: number, y: number, otherX: number, otherY: number) {
+  private hasSamePlayer(x: Pos, y: Pos, otherX: Pos, otherY: Pos) {
     return this.TileAt(x, y)!.hasSamePlayerAs(this.TileAt(otherX, otherY)!);
   }
 
-  private playerAt(x: number, y: number) {
+  private playerAt(x: Pos, y: Pos) {
     return this.TileAt(x, y)!.Player;
   }
 
-  private TileAt(x: number, y: number): Tile {
+  private TileAt(x: Pos, y: Pos): Tile {
     return this._plays.find((t: Tile) =>
       t.hasSameCoordinatesAs(new Tile(x, y, noPlayer)),
     )!;
   }
 
-  private isRowFull(row: number) {
+  private isRowFull(row: Pos) {
     return (
       this.isTilePlayedAt(row, firstColumn) &&
       this.isTilePlayedAt(row, secondColumn) &&
@@ -147,7 +151,7 @@ class Board {
     );
   }
 
-  private isRowFullWithSamePlayer(row: number) {
+  private isRowFullWithSamePlayer(row: Pos) {
     return (
       this.hasSamePlayer(row, firstColumn, row, secondColumn) &&
       this.hasSamePlayer(row, secondColumn, row, thirdColumn)
