@@ -60,6 +60,9 @@ interface Tile {
   Symbol: string;
   hasSameSymbolAs(other: Tile): boolean;
 }
+const hasSymbolFunc = function (this: Tile, other: Tile): boolean {
+  return this.Symbol == other.Symbol;
+}
 
 class Board {
   private _plays: Tile[] = [];
@@ -67,9 +70,7 @@ class Board {
   constructor() {
     for (let i = firstRow; i <= thirdRow; i++) {
       for (let j = firstColumn; j <= thirdColumn; j++) {
-        const tile: Tile = { X: i, Y: j, Symbol: emptyPlay, hasSameSymbolAs: function (other: Tile): boolean {
-          return this.Symbol == other.Symbol;
-        } };
+        const tile: Tile = { X: i, Y: j, Symbol: emptyPlay, hasSameSymbolAs: hasSymbolFunc };
         this._plays.push(tile);
       }
     }
@@ -100,9 +101,7 @@ class Board {
   }
 
   private isRowFull(row: number) {
-    const emptyTile: Tile = { X: -1, Y: -1, Symbol: emptyPlay, hasSameSymbolAs: function (other: Tile): boolean {
-      return this.Symbol == other.Symbol;
-    } };
+    const emptyTile: Tile = { X: -1, Y: -1, Symbol: emptyPlay, hasSameSymbolAs: hasSymbolFunc };
     return (
       !this.TileAt(row, firstColumn)!.hasSameSymbolAs(emptyTile) &&
       !this.TileAt(row, secondColumn)!.hasSameSymbolAs(emptyTile) &&
