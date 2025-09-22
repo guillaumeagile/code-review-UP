@@ -6,23 +6,23 @@ const secondColumn = 1;
 const thirdColumn = 2;
 
 const playerO = "O";
-const emptyPlay = " ";
+const emptySymbol = " ";
 
 export class Game {
-  private _lastSymbol = emptyPlay;
+  private _lastSymbol = emptySymbol;
   private _board: Board = new Board();
 
-  public Play(symbol: string, x: number, y: number): void {
+  public Play(symbol: string, row: number, column: number): void {
     this.validateFirstMove(symbol);
     this.validatePlayer(symbol);
-    this.validatePositionIsEmpty(x, y);
+    this.validateCellIsEmpty(row, column);
 
     this.updateLastPlayer(symbol);
-    this.updateBoard(symbol, x, y);
+    this.updateBoard(symbol, row, column);
   }
 
   private validateFirstMove(player: string) {
-    if (this._lastSymbol == emptyPlay) {
+    if (this._lastSymbol == emptySymbol) {
       if (player == playerO) {
         throw new Error("Invalid first player");
       }
@@ -35,8 +35,8 @@ export class Game {
     }
   }
 
-  private validatePositionIsEmpty(x: number, y: number) {
-    if (this._board.TileAt(x, y).isNotEmpty) {
+  private validateCellIsEmpty(row: number, column: number) {
+    if (this._board.cellAt(row, column).isOccupied) {
       throw new Error("Invalid position");
     }
   }
@@ -45,23 +45,23 @@ export class Game {
     this._lastSymbol = player;
   }
 
-  private updateBoard(player: string, x: number, y: number) {
-    this._board.AddTileAt(player, x, y);
+  private updateBoard(player: string, row: number, column: number) {
+    this._board.placeSymbolAt(player, row, column);
   }
 
   public Winner(): string {
-    return this._board.findRowFullWithSamePlayer();
+    return this._board.winningRowSymbol();
   }
 }
 
-class Tile {
-  private x: number = 0;
-  private y: number = 0;
+class Cell {
+  private row: number = 0;
+  private column: number = 0;
   private symbol: string = " ";
 
-  constructor(x: number, y: number, symbol: string) {
-    this.x = x;
-    this.y = y;
+  constructor(row: number, column: number, symbol: string) {
+    this.row = row;
+    this.column = column;
     this.symbol = symbol;
   }
 
@@ -69,77 +69,77 @@ class Tile {
     return this.symbol;
   }
 
-  get isNotEmpty() {
-    return this.Symbol !== emptyPlay;
+  get isOccupied() {
+    return this.Symbol !== emptySymbol;
   }
 
-  hasSameSymbolAs(other: Tile) {
+  matchesSymbol(other: Cell) {
     return this.Symbol === other.Symbol;
   }
 
-  hasSameCoordinatesAs(other: Tile) {
-    return this.x == other.x && this.y == other.y;
+  matchesCoordinates(other: Cell) {
+    return this.row == other.row && this.column == other.column;
   }
 
-  updateSymbol(newSymbol: string) {
+  setSymbol(newSymbol: string) {
     this.symbol = newSymbol;
   }
 }
 
 class Board {
-  private _plays: Tile[] = [];
+  private _cells: Cell[] = [];
 
   constructor() {
-    for (let x = firstRow; x <= thirdRow; x++) {
-      for (let y = firstColumn; y <= thirdColumn; y++) {
-        this._plays.push(new Tile(x, y, emptyPlay));
+    for (let row = firstRow; row <= thirdRow; row++) {
+      for (let column = firstColumn; column <= thirdColumn; column++) {
+        this._cells.push(new Cell(row, column, emptySymbol));
       }
     }
   }
 
-  public TileAt(x: number, y: number): Tile {
-    return this._plays.find((t: Tile) =>
-      t.hasSameCoordinatesAs(new Tile(x, y, emptyPlay)),
+  public cellAt(row: number, column: number): Cell {
+    return this._cells.find((c: Cell) =>
+      c.matchesCoordinates(new Cell(row, column, emptySymbol)),
     )!;
   }
 
-  public AddTileAt(symbol: string, x: number, y: number): void {
-    this._plays
-      .find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, symbol)))!
-      .updateSymbol(symbol);
+  public placeSymbolAt(symbol: string, row: number, column: number): void {
+    this._cells
+      .find((c: Cell) => c.matchesCoordinates(new Cell(row, column, symbol)))!
+      .setSymbol(symbol);
   }
 
-  public findRowFullWithSamePlayer(): string {
+  public winningRowSymbol(): string {
     if (this.isRowFull(firstRow) && this.isRowFullWithSameSymbol(firstRow)) {
-      return this.TileAt(firstRow, firstColumn)!.Symbol;
+      return this.cellAt(firstRow, firstColumn)!.Symbol;
     }
 
     if (this.isRowFull(secondRow) && this.isRowFullWithSameSymbol(secondRow)) {
-      return this.TileAt(secondRow, firstColumn)!.Symbol;
+      return this.cellAt(secondRow, firstColumn)!.Symbol;
     }
 
     if (this.isRowFull(thirdRow) && this.isRowFullWithSameSymbol(thirdRow)) {
-      return this.TileAt(thirdRow, firstColumn)!.Symbol;
+      return this.cellAt(thirdRow, firstColumn)!.Symbol;
     }
 
-    return emptyPlay;
+    return emptySymbol;
   }
 
   private isRowFull(row: number) {
     return (
-      this.TileAt(row, firstColumn)!.isNotEmpty &&
-      this.TileAt(row, secondColumn)!.isNotEmpty &&
-      this.TileAt(row, thirdColumn)!.isNotEmpty
+      this.cellAt(row, firstColumn)!.isOccupied &&
+      this.cellAt(row, secondColumn)!.isOccupied &&
+      this.cellAt(row, thirdColumn)!.isOccupied
     );
   }
 
   private isRowFullWithSameSymbol(row: number) {
     return (
-      this.TileAt(row, firstColumn)!.hasSameSymbolAs(
-        this.TileAt(row, secondColumn)!,
+      this.cellAt(row, firstColumn)!.matchesSymbol(
+        this.cellAt(row, secondColumn)!,
       ) &&
-      this.TileAt(row, thirdColumn)!.hasSameSymbolAs(
-        this.TileAt(row, secondColumn)!,
+      this.cellAt(row, thirdColumn)!.matchesSymbol(
+        this.cellAt(row, secondColumn)!,
       )
     );
   }
