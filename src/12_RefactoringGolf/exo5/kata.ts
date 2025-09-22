@@ -38,7 +38,7 @@ if (player == this._lastSymbol) {
 }
 
 private validatePositionIsEmpty(x: number, y: number) {
-if (this._board.TileAt(x, y).Symbol != emptyPlay) {
+if (this._board.TileAt(x, y).Symbol != emptyPlay) { // accès direct à l'attribut privé
   throw new Error('Invalid position');
 }
 }
@@ -84,15 +84,15 @@ this._plays.find((t: Tile) => t.X == x && t.Y == y)!.Symbol = symbol;
 
 public findRowFullWithSamePlayer(): string {
 if (this.isRowFull(firstRow) && this.isRowFullWithSameSymbol(firstRow)) {
-  return this.TileAt(firstRow, firstColumn)!.Symbol;
+  return this.TileAt(firstRow, firstColumn)!.Symbol; // accès direct à l'attribut privé
 }
 
 if (this.isRowFull(secondRow) && this.isRowFullWithSameSymbol(secondRow)) {
-  return this.TileAt(secondRow, firstColumn)!.Symbol;
+  return this.TileAt(secondRow, firstColumn)!.Symbol; // accès direct à l'attribut privé
 }
 
 if (this.isRowFull(thirdRow) && this.isRowFullWithSameSymbol(thirdRow)) {
-  return this.TileAt(thirdRow, firstColumn)!.Symbol;
+  return this.TileAt(thirdRow, firstColumn)!.Symbol; // accès direct à l'attribut privé
 }
 
 return emptyPlay;
@@ -100,16 +100,16 @@ return emptyPlay;
 
 private isRowFull(row: number) {
 return (
-    this.TileAt(row, firstColumn)!.Symbol != emptyPlay &&
-    this.TileAt(row, secondColumn)!.Symbol != emptyPlay &&
-    this.TileAt(row, thirdColumn)!.Symbol != emptyPlay
+    this.TileAt(row, firstColumn)!.Symbol != emptyPlay && // accès/comparaison direct à l'attribut privé
+    this.TileAt(row, secondColumn)!.Symbol != emptyPlay && // accès/comparaison direct à l'attribut privé
+    this.TileAt(row, thirdColumn)!.Symbol != emptyPlay // accès/comparaison direct à l'attribut privé
 );
 }
 
 private isRowFullWithSameSymbol(row: number) {
 return (
-    this.TileAt(row, firstColumn)!.Symbol == this.TileAt(row, secondColumn)!.Symbol &&
-    this.TileAt(row, thirdColumn)!.Symbol == this.TileAt(row, secondColumn)!.Symbol
+    this.TileAt(row, firstColumn)!.Symbol == this.TileAt(row, secondColumn)!.Symbol && // accès/comparaison direct à l'attribut privé
+    this.TileAt(row, thirdColumn)!.Symbol == this.TileAt(row, secondColumn)!.Symbol // accès/comparaison direct à l'attribut privé
 );
 }
 }
