@@ -1,13 +1,11 @@
 # Exo 4 to Exo 5
 
-
-
 ## Refactorings
 
 - Tackle scope of constants and variables
   - Move constants and variables to proper scope
   - les constantes et les variables ne sont probablement pas au bon endroit, dans le bon scope
-    - https://www.tektutorialshub.com/typescript/variable-scope-in-typescript/
+    - <https://www.tektutorialshub.com/typescript/variable-scope-in-typescript/>
     - The Typescript variable can be in three scopes depending on how & where you have defined them.
       - Global Scope
       - Function Scope or Class Scope
@@ -21,7 +19,7 @@
 ## Tips
 
 - Use a diff tool to identify the code changes you need to perform
--  https://devconnected.com/how-to-compare-two-git-branches/
+- <https://devconnected.com/how-to-compare-two-git-branches/>
 - $ git diff branch1..branch2
 - Check the code coverage is enough to detect any unintended behaviour changes
 

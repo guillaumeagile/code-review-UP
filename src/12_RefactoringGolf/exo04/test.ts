@@ -109,4 +109,23 @@ describe('TicTacToe game', () => {
 
     expect(winner).toBe('O');
   });
+
+  it('should declare empty string as winner if nothing is played', () => {
+    const winner = game.Winner();
+
+    expect(winner).toBe(' ');
+  });
+
+  it('should declare empty string as winner if no one has three in a row', () => {
+    game.Play('X', 0, 0);
+    game.Play('O', 1, 0);
+    game.Play('X', 2, 0);
+    game.Play('O', 0, 1);
+    game.Play('X', 1, 1);
+    game.Play('O', 0, 2);
+
+    const winner = game.Winner();
+
+    expect(winner).toBe(' ');
+  });
 });
