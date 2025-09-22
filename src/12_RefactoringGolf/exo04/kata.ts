@@ -78,9 +78,9 @@ export class Game {
   private isFirstRowFullWithSameSymbol() {
     return (
       this._board.TileAt(this.firstRow, this.firstColumn)!.Symbol ==
-        this._board.TileAt(this.firstRow, this.secondColumn)!.Symbol &&
+      this._board.TileAt(this.firstRow, this.secondColumn)!.Symbol &&
       this._board.TileAt(this.firstRow, this.thirdColumn)!.Symbol ==
-        this._board.TileAt(this.firstRow, this.secondColumn)!.Symbol
+      this._board.TileAt(this.firstRow, this.secondColumn)!.Symbol
     );
   }
 
@@ -95,9 +95,9 @@ export class Game {
   private isSecondRowFullWithSameSymbol() {
     return (
       this._board.TileAt(this.secondRow, this.firstColumn)!.Symbol ==
-        this._board.TileAt(this.secondRow, this.secondColumn)!.Symbol &&
+      this._board.TileAt(this.secondRow, this.secondColumn)!.Symbol &&
       this._board.TileAt(this.secondRow, this.thirdColumn)!.Symbol ==
-        this._board.TileAt(this.secondRow, this.secondColumn)!.Symbol
+      this._board.TileAt(this.secondRow, this.secondColumn)!.Symbol
     );
   }
 
@@ -112,9 +112,9 @@ export class Game {
   private isThirdRowFullWithSameSymbol() {
     return (
       this._board.TileAt(this.thirdRow, this.firstColumn)!.Symbol ==
-        this._board.TileAt(this.thirdRow, this.secondColumn)!.Symbol &&
+      this._board.TileAt(this.thirdRow, this.secondColumn)!.Symbol &&
       this._board.TileAt(this.thirdRow, this.thirdColumn)!.Symbol ==
-        this._board.TileAt(this.thirdRow, this.secondColumn)!.Symbol
+      this._board.TileAt(this.thirdRow, this.secondColumn)!.Symbol
     );
   }
 }
