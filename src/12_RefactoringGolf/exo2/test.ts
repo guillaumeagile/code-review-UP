@@ -109,4 +109,14 @@ describe('TicTacToe game', () => {
 
     expect(winner).toBe('O');
   });
+
+  it('should return no winner if no player has three in a row', () => {
+    game.Play('X', 0, 0);
+    game.Play('O', 1, 1);
+    game.Play('X', 2, 2);
+
+    const winner = game.Winner();
+
+    expect(winner).toBe(' ');
+  });
 });
