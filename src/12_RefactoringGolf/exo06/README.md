@@ -1,17 +1,16 @@
 # Exo 6 to Exo 7
 
-
 ## Refactorings
 
 - Tackle domain language as result of new abstractions
   - Rename constants, variables, arguments, methods to better express domain language
 
 Le code parle du Jeu TIC TAC TOE, on ne devrait employer des termes qui ont du sens dans ce contexte là
-https://en.wikipedia.org/wiki/Tic-tac-toe
+<https://en.wikipedia.org/wiki/Tic-tac-toe>
 
 Tic-tac-toe is played on a three-by-three grid by two players, who alternately place the marks X and O in one of the nine spaces in the grid.
 
-The player who succeeds in placing three of their marks in a horizontal, vertical, or diagonal row is the winner. 
+The player who succeeds in placing three of their marks in a horizontal, vertical, or diagonal row is the winner.
 
 ## Tips
 
