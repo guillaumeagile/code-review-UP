@@ -109,4 +109,10 @@ describe('TicTacToe game', () => {
 
     expect(winner).toBe('O');
   });
+
+  it('should declare empty string as winner if nothing is played', () => {
+    const winner = game.Winner();
+
+    expect(winner).toBe(' ');
+  });
 });
