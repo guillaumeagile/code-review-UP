@@ -41,6 +41,15 @@ export class Game {
         this._board.AddTileAt(player, x, y);
     }
 
+    private isRowFull(row: number): boolean {
+        return (
+            this._board.TileAt(row, 0)!.Symbol != ' ' &&
+            this._board.TileAt(row, 1)!.Symbol != ' ' &&
+            this._board.TileAt(row, 2)!.Symbol != ' '
+        );
+    }
+
+
     public Winner(): string {
         if (this.isFirstRowFull() && this.isFirstRowFullWithSameSymbol()) {
             return this._board.TileAt(0, 0)!.Symbol;
