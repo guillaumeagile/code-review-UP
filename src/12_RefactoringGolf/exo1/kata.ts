@@ -2,7 +2,7 @@
 
 export class Game {
     private _lastSymbol = ' ';
-    private _toto: Board = new Board();
+    private _board: Board = new Board();
 
 
     /**
@@ -17,7 +17,7 @@ export class Game {
         if (this.isPositionTaken(x, y)) throw new Error('Invalid position');
 
         this._lastSymbol = symbol;
-        this._toto.AddTileAt(symbol, x, y);
+        this._board.AddTileAt(symbol, x, y);
     }
 
 
@@ -28,7 +28,7 @@ export class Game {
      */
     public Winner(): string {
         for (let row = 0; row < 3; row++) {
-            if (this.isWinningRow(row)) return this._toto.TileAt(row, 0).Symbol;
+            if (this.isWinningRow(row)) return this._board.TileAt(row, 0).Symbol;
         }
         return ' ';
     }
@@ -44,14 +44,14 @@ export class Game {
     }
 
     private isPositionTaken(x: number, y: number): boolean {
-        return this._toto.TileAt(x, y).Symbol !== ' ';
+        return this._board.TileAt(x, y).Symbol !== ' ';
     }
 
     // ------------------- Private method for Winner() -------------------
     private isWinningRow(row: number): boolean {
-        const a = this._toto.TileAt(row, 0).Symbol;
-        const b = this._toto.TileAt(row, 1).Symbol;
-        const c = this._toto.TileAt(row, 2).Symbol;
+        const a = this._board.TileAt(row, 0).Symbol;
+        const b = this._board.TileAt(row, 1).Symbol;
+        const c = this._board.TileAt(row, 2).Symbol;
         return a !== ' ' && a === b && b === c;
     }
 }
