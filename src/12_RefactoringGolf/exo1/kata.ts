@@ -77,7 +77,7 @@ class Board {
     }
 
     /**
-     * Add a tile at the given coordinates
+     * Add a tile at the given coordinates with the given symbol
      * @param symbol
      * @param x
      * @param y
