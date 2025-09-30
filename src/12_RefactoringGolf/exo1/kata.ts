@@ -28,16 +28,11 @@ export class Game {
      */
     public Winner(): string {
         for (let row = 0; row < 3; row++) {
-            if (
-                this._toto.TileAt(row, 0).Symbol !== ' ' &&
-                this._toto.TileAt(row, 0).Symbol === this._toto.TileAt(row, 1).Symbol &&
-                this._toto.TileAt(row, 1).Symbol === this._toto.TileAt(row, 2).Symbol
-            ) {
-                return this._toto.TileAt(row, 0).Symbol;
-            }
+            if (this.isWinningRow(row)) return this._toto.TileAt(row, 0).Symbol;
         }
         return ' ';
     }
+
 
     // ------------------- Private method for Play() -------------------
     private isFirstMoveInvalid(symbol: string): boolean {
@@ -50,6 +45,14 @@ export class Game {
 
     private isPositionTaken(x: number, y: number): boolean {
         return this._toto.TileAt(x, y).Symbol !== ' ';
+    }
+
+    // ------------------- Private method for Winner() -------------------
+    private isWinningRow(row: number): boolean {
+        const a = this._toto.TileAt(row, 0).Symbol;
+        const b = this._toto.TileAt(row, 1).Symbol;
+        const c = this._toto.TileAt(row, 2).Symbol;
+        return a !== ' ' && a === b && b === c;
     }
 }
 
