@@ -4,27 +4,22 @@ export class Game {
     private _lastSymbol = ' ';
     private _toto: Board = new Board();
 
+
     /**
      * Play a move
      * @param symbol 'X' or 'O'
      * @param x X coordinate (0, 1, or 2)
      * @param y Y coordinate (0, 1, or 2)
-     * @constructor
      */
     public Play(symbol: string, x: number, y: number): void {
-        if (this._lastSymbol == ' ') {
-            if (symbol == 'O') {
-                throw new Error('Invalid first player');
-            }
-        } else if (symbol == this._lastSymbol) {
-            throw new Error('Invalid next player');
-        } else if (this._toto.TileAt(x, y).Symbol != ' ') {
-            throw new Error('Invalid position');
-        }
+        if (this.isFirstMoveInvalid(symbol)) throw new Error('Invalid first player');
+        if (this.isRepeatedPlayer(symbol)) throw new Error('Invalid next player');
+        if (this.isPositionTaken(x, y)) throw new Error('Invalid position');
 
         this._lastSymbol = symbol;
         this._toto.AddTileAt(symbol, x, y);
     }
+
 
     /**
      * Check if there is a winner
@@ -42,6 +37,19 @@ export class Game {
             }
         }
         return ' ';
+    }
+
+    // ------------------- Private method for Play() -------------------
+    private isFirstMoveInvalid(symbol: string): boolean {
+        return this._lastSymbol === ' ' && symbol === 'O';
+    }
+
+    private isRepeatedPlayer(symbol: string): boolean {
+        return symbol === this._lastSymbol;
+    }
+
+    private isPositionTaken(x: number, y: number): boolean {
+        return this._toto.TileAt(x, y).Symbol !== ' ';
     }
 }
 
@@ -89,4 +97,6 @@ class Board {
 
         this._plays.find((t: Tile) => t.X == x && t.Y == y)!.Symbol = symbol;
     }
+
+
 }
