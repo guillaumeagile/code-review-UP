@@ -7,6 +7,12 @@ describe('TicTacToe game', () => {
     game = new Game();
   });
 
+  test('should allow player X to play first', () => {
+    expect(() => {
+      game.Play('X', 0, 0);
+    }).not.toThrow();
+  });
+
   test('should not allow player O to play first', () => {
     expect(() => {
       game.Play('O', 0, 0);
