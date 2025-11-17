@@ -7,7 +7,7 @@ export class Game {
   private readonly playerO = 'O';
   private readonly emptyPlay = ' ';
 
-  // Enlever les constantes de ligne/colonne au niveau de la classe
+  // On enleve les constantes de ligne/colonne au niveau de la classe
   // (stockées comme propriétés de la classe alors qu’on ne les utilisait que dans la logique de Winner)
 
   public Play(symbol: string, x: number, y: number): void {
