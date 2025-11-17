@@ -7,12 +7,8 @@ export class Game {
   private readonly playerO = 'O';
   private readonly emptyPlay = ' ';
 
-  private readonly firstRow = 0;
-  private readonly secondRow = 1;
-  private readonly thirdRow = 2;
-  private readonly firstColumn = 0;
-  private readonly secondColumn = 1;
-  private readonly thirdColumn = 2;
+  // Enlever les constantes de ligne/colonne au niveau de la classe
+  // (stockées comme propriétés de la classe alors qu’on ne les utilisait que dans la logique de Winner)
 
   public Play(symbol: string, x: number, y: number): void {
     this.validateFirstMove(symbol);
@@ -52,70 +48,39 @@ export class Game {
   }
 
   public Winner(): string {
-    if (this.isFirstRowFull() && this.isFirstRowFullWithSameSymbol()) {
-      return this._board.TileAt(this.firstRow, this.firstColumn)!.Symbol;
-    }
-
-    if (this.isSecondRowFull() && this.isSecondRowFullWithSameSymbol()) {
-      return this._board.TileAt(this.secondRow, this.firstColumn)!.Symbol;
-    }
-
-    if (this.isThirdRowFull() && this.isThirdRowFullWithSameSymbol()) {
-      return this._board.TileAt(this.thirdRow, this.firstColumn)!.Symbol;
+    // On parcourt les 3 lignes du plateau : 0, 1, 2
+    for (let row = 0; row < 3; row++) {
+      if (this.isRowFull(row) && this.isRowFullWithSameSymbol(row)) {
+        return this._board.TileAt(row, 0).Symbol;
+      }
     }
 
     return this.emptyPlay;
   }
 
-  private isFirstRowFull() {
-    return (
-      this._board.TileAt(this.firstRow, this.firstColumn)!.Symbol != this.emptyPlay &&
-      this._board.TileAt(this.firstRow, this.secondColumn)!.Symbol != this.emptyPlay &&
-      this._board.TileAt(this.firstRow, this.thirdColumn)!.Symbol != this.emptyPlay
+  // On supprime des duplications qui ne sont pas nécessaires
+  // On remplace les méthodes is...RowFull et is...RowFullWithSameSymbol par des méthodes génériques qui prennent l’index de la ligne.
+
+  /**
+   * Vérifie que toutes les cases d'une ligne sont jouées (non vides)
+   */
+  private isRowFull(row: number): boolean {
+    const columns = [0, 1, 2];
+
+    return columns.every(
+        (column) => this._board.TileAt(row, column).Symbol !== this.emptyPlay,
     );
   }
 
-  private isFirstRowFullWithSameSymbol() {
-    return (
-      this._board.TileAt(this.firstRow, this.firstColumn)!.Symbol ==
-        this._board.TileAt(this.firstRow, this.secondColumn)!.Symbol &&
-      this._board.TileAt(this.firstRow, this.thirdColumn)!.Symbol ==
-        this._board.TileAt(this.firstRow, this.secondColumn)!.Symbol
-    );
-  }
+  /**
+   * Vérifie que toutes les cases d'une ligne ont le même symbole
+   */
+  private isRowFullWithSameSymbol(row: number): boolean {
+    const firstSymbol = this._board.TileAt(row, 0).Symbol;
+    const secondSymbol = this._board.TileAt(row, 1).Symbol;
+    const thirdSymbol = this._board.TileAt(row, 2).Symbol;
 
-  private isSecondRowFull() {
-    return (
-      this._board.TileAt(this.secondRow, this.firstColumn)!.Symbol != this.emptyPlay &&
-      this._board.TileAt(this.secondRow, this.secondColumn)!.Symbol != this.emptyPlay &&
-      this._board.TileAt(this.secondRow, this.thirdColumn)!.Symbol != this.emptyPlay
-    );
-  }
-
-  private isSecondRowFullWithSameSymbol() {
-    return (
-      this._board.TileAt(this.secondRow, this.firstColumn)!.Symbol ==
-        this._board.TileAt(this.secondRow, this.secondColumn)!.Symbol &&
-      this._board.TileAt(this.secondRow, this.thirdColumn)!.Symbol ==
-        this._board.TileAt(this.secondRow, this.secondColumn)!.Symbol
-    );
-  }
-
-  private isThirdRowFull() {
-    return (
-      this._board.TileAt(this.thirdRow, this.firstColumn)!.Symbol != this.emptyPlay &&
-      this._board.TileAt(this.thirdRow, this.secondColumn)!.Symbol != this.emptyPlay &&
-      this._board.TileAt(this.thirdRow, this.thirdColumn)!.Symbol != this.emptyPlay
-    );
-  }
-
-  private isThirdRowFullWithSameSymbol() {
-    return (
-      this._board.TileAt(this.thirdRow, this.firstColumn)!.Symbol ==
-        this._board.TileAt(this.thirdRow, this.secondColumn)!.Symbol &&
-      this._board.TileAt(this.thirdRow, this.thirdColumn)!.Symbol ==
-        this._board.TileAt(this.thirdRow, this.secondColumn)!.Symbol
-    );
+    return firstSymbol === secondSymbol && thirdSymbol === secondSymbol;
   }
 }
 
