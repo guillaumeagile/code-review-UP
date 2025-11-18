@@ -34,6 +34,6 @@ Ajout de documentation JSDoc sur les classes et méthodes pour faciliter la comp
 
 Suppression de code mort et duplication inutile.
 
-Factorisation réussie de la logique de vérification des lignes gagnantes.
+Factorisation  de la logique de vérification des lignes gagnantes.
 
 Code plus lisible, maintenable et documenté.
