@@ -109,4 +109,15 @@ describe('TicTacToe game', () => {
 
     expect(winner).toBe('O');
   });
+
+  it('should not declare a winner for a full top row with mixed symbols', () => {
+      game.Play('X', 0, 0);
+      game.Play('O', 0, 1);
+      game.Play('X', 0, 2);
+
+      const winner = game.Winner();
+
+      expect(winner).toBe(' ');
+    });
+
 });
