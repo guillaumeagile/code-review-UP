@@ -1,6 +1,5 @@
-const EMPTY_SYMBOL = ' ';
-const PLAYER_O = 'O';
-const BOARD_SIZE = 3;
+import { Board } from './board';
+import { EMPTY_SYMBOL, PLAYER_O, BOARD_SIZE } from './constants';
 
 export class Game {
   private _lastSymbol = EMPTY_SYMBOL;
@@ -69,32 +68,5 @@ export class Game {
       }
     }
     return true;
-  }
-}
-
-interface Tile {
-  X: number;
-  Y: number;
-  Symbol: string;
-}
-
-class Board {
-  private _plays: Tile[] = [];
-
-  constructor() {
-    for (let i = 0; i < BOARD_SIZE; i++) {
-      for (let j = 0; j < BOARD_SIZE; j++) {
-        const tile: Tile = { X: i, Y: j, Symbol: EMPTY_SYMBOL };
-        this._plays.push(tile);
-      }
-    }
-  }
-
-  public TileAt(x: number, y: number): Tile {
-    return this._plays.find((t: Tile) => t.X == x && t.Y == y)!;
-  }
-
-  public AddTileAt(symbol: string, x: number, y: number): void {
-    this._plays.find((t: Tile) => t.X == x && t.Y == y)!.Symbol = symbol;
   }
 }
