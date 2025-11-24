@@ -2,7 +2,6 @@ const EMPTY_SYMBOL = ' ';
 const PLAYER_O = 'O';
 const BOARD_SIZE = 3;
 
-
 export class Game {
   private _lastSymbol = EMPTY_SYMBOL;
   private _board: Board = new Board();
@@ -17,7 +16,7 @@ export class Game {
   }
 
   private validateFirstMove(player: string) {
-    if (this._lastSymbol == EMPTY_SYMBOL) {
+    if (this._lastSymbol === EMPTY_SYMBOL) {
       if (player === PLAYER_O) {
         throw new Error('Invalid first player');
       }
@@ -25,7 +24,7 @@ export class Game {
   }
 
   private validatePlayer(player: string) {
-    if (player == this._lastSymbol) {
+    if (player === this._lastSymbol) {
       throw new Error('Invalid next player');
     }
   }
@@ -45,64 +44,31 @@ export class Game {
   }
 
   public Winner(): string {
-    if (this.isFirstRowFull() && this.isFirstRowFullWithSameSymbol()) {
-      return this._board.TileAt(0, 0)!.Symbol;
+    for (let row = 0; row < BOARD_SIZE; row++) {
+      if (this.isRowFull(row) && this.isRowFullWithSameSymbol(row)) {
+        return this._board.TileAt(row, 0)!.Symbol;
+      }
     }
-
-    if (this.isSecondRowFull() && this.isSecondRowFullWithSameSymbol()) {
-      return this._board.TileAt(1, 0)!.Symbol;
-    }
-
-    if (this.isThirdRowFull() && this.isThirdRowFullWithSameSymbol()) {
-      return this._board.TileAt(2, 0)!.Symbol;
-    }
-
     return EMPTY_SYMBOL;
   }
 
-  private isFirstRowFull() {
-    return (
-        this._board.TileAt(0, 0)!.Symbol != EMPTY_SYMBOL &&
-        this._board.TileAt(0, 1)!.Symbol != EMPTY_SYMBOL &&
-        this._board.TileAt(0, 2)!.Symbol != EMPTY_SYMBOL
-    );
+  private isRowFull(row: number): boolean {
+    for (let col = 0; col < BOARD_SIZE; col++) {
+      if (this._board.TileAt(row, col)!.Symbol === EMPTY_SYMBOL) {
+        return false;
+      }
+    }
+    return true;
   }
 
-  private isFirstRowFullWithSameSymbol() {
-    return (
-        this._board.TileAt(0, 0)!.Symbol == this._board.TileAt(0, 1)!.Symbol &&
-        this._board.TileAt(0, 2)!.Symbol == this._board.TileAt(0, 1)!.Symbol
-    );
-  }
-
-  private isSecondRowFull() {
-    return (
-        this._board.TileAt(1, 0)!.Symbol != EMPTY_SYMBOL &&
-        this._board.TileAt(1, 1)!.Symbol != EMPTY_SYMBOL &&
-        this._board.TileAt(1, 2)!.Symbol != EMPTY_SYMBOL
-    );
-  }
-
-  private isSecondRowFullWithSameSymbol() {
-    return (
-        this._board.TileAt(1, 0)!.Symbol == this._board.TileAt(1, 1)!.Symbol &&
-        this._board.TileAt(1, 2)!.Symbol == this._board.TileAt(1, 1)!.Symbol
-    );
-  }
-
-  private isThirdRowFull() {
-    return (
-        this._board.TileAt(2, 0)!.Symbol != EMPTY_SYMBOL &&
-        this._board.TileAt(2, 1)!.Symbol != EMPTY_SYMBOL &&
-        this._board.TileAt(2, 2)!.Symbol != EMPTY_SYMBOL
-    );
-  }
-
-  private isThirdRowFullWithSameSymbol() {
-    return (
-        this._board.TileAt(2, 0)!.Symbol == this._board.TileAt(2, 1)!.Symbol &&
-        this._board.TileAt(2, 2)!.Symbol == this._board.TileAt(2, 1)!.Symbol
-    );
+  private isRowFullWithSameSymbol(row: number): boolean {
+    const first = this._board.TileAt(row, 0)!.Symbol;
+    for (let col = 1; col < BOARD_SIZE; col++) {
+      if (this._board.TileAt(row, col)!.Symbol !== first) {
+        return false;
+      }
+    }
+    return true;
   }
 }
 
