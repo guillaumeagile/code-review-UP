@@ -1,5 +1,7 @@
 const EMPTY_SYMBOL = ' ';
 const PLAYER_O = 'O';
+const BOARD_SIZE = 3;
+
 
 export class Game {
   private _lastSymbol = EMPTY_SYMBOL;
@@ -114,8 +116,8 @@ class Board {
   private _plays: Tile[] = [];
 
   constructor() {
-    for (let i = 0; i < 3; i++) {
-      for (let j = 0; j < 3; j++) {
+    for (let i = 0; i < BOARD_SIZE; i++) {
+      for (let j = 0; j < BOARD_SIZE; j++) {
         const tile: Tile = { X: i, Y: j, Symbol: EMPTY_SYMBOL };
         this._plays.push(tile);
       }
