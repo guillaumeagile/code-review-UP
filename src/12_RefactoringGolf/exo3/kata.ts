@@ -1,4 +1,5 @@
 const EMPTY_SYMBOL = ' ';
+const PLAYER_O = 'O';
 
 export class Game {
   private _lastSymbol = EMPTY_SYMBOL;
@@ -15,7 +16,7 @@ export class Game {
 
   private validateFirstMove(player: string) {
     if (this._lastSymbol == EMPTY_SYMBOL) {
-      if (player === '0') {
+      if (player === PLAYER_O) {
         throw new Error('Invalid first player');
       }
     }
