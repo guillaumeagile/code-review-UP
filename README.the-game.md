@@ -1,4 +1,11 @@
-# Refactoring Golf
+# Refactoring Golf - the Game version
+
+pour les étudiants, commencez par lire
+`src/12_RefactoringGolf/exo1/README.md`
+
+ne lisez pas les instructions ci dessous
+
+## the original game guide (not for students)
 
 - Start on hole 1 and refactor the code to be like the code in hole 2
   - Use a diff tool to see the differences in code between the starting hole and end hole
