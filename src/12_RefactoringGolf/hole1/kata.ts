@@ -1,142 +1,88 @@
 /* eslint-disable */
 
-const firstRow = 0;
-const secondRow = 1;
-const thirdRow = 2;
-const firstColumn = 0;
-const secondColumn = 1;
-const thirdColumn = 2;
-
-const playerO = 'O';
-const emptyPlay = ' ';
+const EMPTY = " ";
+const PLAYER_O = "O";
 
 export class Game {
-  private _lastSymbol = emptyPlay;
-  private _board: Board = new Board();
+  private lastSymbol = EMPTY;
+  private board = new Board();
 
+  /**
+   * Main entry point: validates move then updates state.
+   */
   public Play(symbol: string, x: number, y: number): void {
-    this.validateFirstMove(symbol);
-    this.validatePlayer(symbol);
-    this.validatePositionIsEmpty(x, y);
+    if (this.lastSymbol === EMPTY && symbol === PLAYER_O)
+      throw new Error("Invalid first player"); // O cannot start
 
-    this.updateLastPlayer(symbol);
-    this.updateBoard(symbol, x, y);
+    if (symbol === this.lastSymbol)
+      throw new Error("Invalid next player"); // same player twice
+
+    if (this.board.isOccupied(x, y))
+      throw new Error("Invalid position"); // tile already used
+
+    this.lastSymbol = symbol;
+    this.board.place(symbol, x, y);
   }
 
-  private validateFirstMove(player: string) {
-    if (this._lastSymbol == emptyPlay) {
-      if (player == playerO) {
-        throw new Error('Invalid first player');
-      }
-    }
-  }
-
-  private validatePlayer(player: string) {
-    if (player == this._lastSymbol) {
-      throw new Error('Invalid next player');
-    }
-  }
-
-  private validatePositionIsEmpty(x: number, y: number) {
-    if (this._board.TileAt(x, y).isNotEmpty) {
-      throw new Error('Invalid position');
-    }
-  }
-
-  private updateLastPlayer(player: string) {
-    this._lastSymbol = player;
-  }
-
-  private updateBoard(player: string, x: number, y: number) {
-    this._board.AddTileAt(player, x, y);
-  }
-
+  /** Winner detection delegated to board */
   public Winner(): string {
-    return this._board.findRowFullWithSamePlayer();
+    return this.board.findWinnerRow();
   }
 }
 
+/**
+ * Tile class is simplified: no need to store x,y  independently.
+ * The board grid stores its own coordinate.
+ */
 class Tile {
-  private x: number = 0;
-  private y: number = 0;
-  private symbol: string = ' ';
-
-  constructor(x: number, y: number, symbol: string) {
-    this.x = x;
-    this.y = y;
-    this.symbol = symbol;
-  }
-
-  get Symbol() {
-    return this.symbol;
-  }
+  constructor(public symbol: string = EMPTY) {}
 
   get isNotEmpty() {
-    return this.Symbol !== emptyPlay;
+    return this.symbol !== EMPTY;
   }
 
-  hasSameSymbolAs(other: Tile) {
-    return this.Symbol === other.Symbol;
-  }
-
-  hasSameCoordinatesAs(other: Tile) {
-    return this.x == other.x && this.y == other.y;
-  }
-
-  updateSymbol(newSymbol: string) {
-    this.symbol = newSymbol;
+  updateSymbol(s: string) {
+    this.symbol = s;
   }
 }
 
+/**
+ * Board refactored to a 3×3 matrix instead of a flat list of Tiles.
+ * This removes the need for coordinate matching logic and makes code shorter.
+ */
 class Board {
-  private _plays: Tile[] = [];
+  private grid: Tile[][];
 
   constructor() {
-    for (let x = firstRow; x <= thirdRow; x++) {
-      for (let y = firstColumn; y <= thirdColumn; y++) {
-        this._plays.push(new Tile(x, y, emptyPlay));
+    // Create a 3×3 Tile grid
+    this.grid = Array.from({ length: 3 }, () =>
+        Array.from({ length: 3 }, () => new Tile())
+    );
+  }
+
+  public isOccupied(x: number, y: number): boolean {
+    // @ts-ignore
+    return this.grid[x][y].isNotEmpty;
+  }
+
+  public place(symbol: string, x: number, y: number): void {
+    // @ts-ignore
+    this.grid[x][y].updateSymbol(symbol);
+  }
+
+  /**
+   * Refactored winner detection:
+   * - loop rows instead of manually checking first/middle/last row
+   * - early return on winner
+   */
+  public findWinnerRow(): string {
+    for (let r = 0; r < 3; r++) {
+      // @ts-ignore
+      const [a, b, c] = this.grid[r];
+      if (a.isNotEmpty && a.symbol === b.symbol && b.symbol === c.symbol) {
+        return a.symbol;
       }
     }
-  }
-
-  public TileAt(x: number, y: number): Tile {
-    return this._plays.find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, emptyPlay)))!;
-  }
-
-  public AddTileAt(symbol: string, x: number, y: number): void {
-    this._plays
-      .find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, symbol)))!
-      .updateSymbol(symbol);
-  }
-
-  public findRowFullWithSamePlayer(): string {
-    if (this.isRowFull(firstRow) && this.isRowFullWithSameSymbol(firstRow)) {
-      return this.TileAt(firstRow, firstColumn)!.Symbol;
-    }
-
-    if (this.isRowFull(secondRow) && this.isRowFullWithSameSymbol(secondRow)) {
-      return this.TileAt(secondRow, firstColumn)!.Symbol;
-    }
-
-    if (this.isRowFull(thirdRow) && this.isRowFullWithSameSymbol(thirdRow)) {
-      return this.TileAt(thirdRow, firstColumn)!.Symbol;
-    }
-
-    return emptyPlay;
-  }
-
-  private isRowFull(row: number) {
-    return (
-      this.TileAt(row, firstColumn)!.isNotEmpty &&
-      this.TileAt(row, secondColumn)!.isNotEmpty &&
-      this.TileAt(row, thirdColumn)!.isNotEmpty
-    );
-  }
-
-  private isRowFullWithSameSymbol(row: number) {
-    return (
-      this.TileAt(row, firstColumn)!.hasSameSymbolAs(this.TileAt(row, secondColumn)!) &&
-      this.TileAt(row, thirdColumn)!.hasSameSymbolAs(this.TileAt(row, secondColumn)!)
-    );
+    return EMPTY;
   }
 }
