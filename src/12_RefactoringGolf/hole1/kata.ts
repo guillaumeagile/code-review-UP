@@ -1,153 +1,139 @@
 /* eslint-disable */
 
-const firstRow = 0;
-const secondRow = 1;
-const thirdRow = 2;
-const firstColumn = 0;
-const secondColumn = 1;
-const thirdColumn = 2;
+// Domain constants (renamed to real TicTacToe vocabulary)
+const ROW_0 = 0;
+const ROW_2 = 2;
 
-const playerO = 'O';
-const noPlayer = ' ';
+const COL_0 = 0;
+const COL_1 = 1;
+const COL_2 = 2;
 
+const MARK_O = "O";
+const EMPTY = " ";
+
+// --------------------------------------------
+// Game = main domain service
+// --------------------------------------------
 export class Game {
-  private _lastPlayer = noPlayer;
-  private _board: Board = new Board();
+  private lastMark = EMPTY;
+  private board = new Board();
 
-  public Play(player: string, x: number, y: number): void {
-    this.validateFirstMove(player);
-    this.validatePlayer(player);
-    this.validatePositionIsEmpty(x, y);
+  /**
+   * Main game action: a player places a mark on the grid.
+   * Refactoring exo 7:
+   * - Renamed variables/methods to domain language
+   * - Accept a Square object instead of (player, x, y)
+   */
+  public Play(mark: string, row: number, col: number): void {
+    this.validateFirstMove(mark);
+    this.validateTurnOrder(mark);
+    this.validateSquareIsFree(row, col);
 
-    this.updateLastPlayer(player);
-    this.updateBoard(player, x, y);
+    this.lastMark = mark;
+    this.board.place(new Square(row, col, mark)); // Exo 7: long parameter list removed
   }
 
-  private validateFirstMove(player: string) {
-    if (this._lastPlayer == noPlayer) {
-      if (player == playerO) {
-        throw new Error('Invalid first player');
-      }
+  private validateFirstMove(mark: string) {
+    if (this.lastMark === EMPTY && mark === MARK_O) {
+      throw new Error("Invalid first player");
     }
   }
 
-  private validatePlayer(player: string) {
-    if (player == this._lastPlayer) {
-      throw new Error('Invalid next player');
+  private validateTurnOrder(mark: string) {
+    if (mark === this.lastMark) {
+      throw new Error("Invalid next player");
     }
   }
 
-  private validatePositionIsEmpty(x: number, y: number) {
-    if (this._board.isTilePlayedAt(x, y)) {
-      throw new Error('Invalid position');
+  private validateSquareIsFree(row: number, col: number) {
+    if (this.board.isOccupied(row, col)) {
+      throw new Error("Invalid position");
     }
-  }
-
-  private updateLastPlayer(player: string) {
-    this._lastPlayer = player;
-  }
-
-  private updateBoard(player: string, x: number, y: number) {
-    this._board.AddTileAt(new Tile(x, y, player));
   }
 
   public Winner(): string {
-    return this._board.findRowFullWithSamePlayer();
+    return this.board.findWinningRow();
   }
 }
 
-class Tile {
-  private x: number = 0;
-  private y: number = 0;
-  private player: string = noPlayer;
-
-  constructor(x: number, y: number, player: string) {
-    this.x = x;
-    this.y = y;
-    this.player = player;
-  }
-
-  get Player() {
-    return this.player;
-  }
+// --------------------------------------------
+// Square (ex-Tile)
+// Stores mark at a grid coordinate
+// --------------------------------------------
+class Square {
+  constructor(
+      public row: number,
+      public col: number,
+      public mark: string = EMPTY
+  ) {}
 
   get isNotEmpty() {
-    return this.Player !== noPlayer;
+    return this.mark !== EMPTY;
   }
 
-  hasSamePlayerAs(other: Tile) {
-    return this.Player === other.Player;
+  hasSameMarkAs(other: Square) {
+    return this.mark === other.mark;
   }
 
-  hasSameCoordinatesAs(other: Tile) {
-    return this.x == other.x && this.y == other.y;
+  hasSamePositionAs(other: Square) {
+    return this.row === other.row && this.col === other.col;
   }
 
-  updatePlayer(newPlayer: string) {
-    this.player = newPlayer;
+  updateMark(mark: string) {
+    this.mark = mark;
   }
 }
 
+// --------------------------------------------
+// Board (ex-plays list, but cleaner names)
+// --------------------------------------------
 class Board {
-  private _plays: Tile[] = [];
+  private squares: Square[] = [];
 
   constructor() {
-    for (let x = firstRow; x <= thirdRow; x++) {
-      for (let y = firstColumn; y <= thirdColumn; y++) {
-        this._plays.push(new Tile(x, y, noPlayer));
+    for (let r = ROW_0; r <= ROW_2; r++) {
+      for (let c = COL_0; c <= COL_2; c++) {
+        this.squares.push(new Square(r, c, EMPTY));
       }
     }
   }
 
-  public isTilePlayedAt(x: number, y: number) {
-    return this._plays.find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, noPlayer)))!
-      .isNotEmpty;
+  public isOccupied(row: number, col: number) {
+    return this.squareAt(row, col).isNotEmpty;
   }
 
-  public AddTileAt(tile: Tile): void {
-    this._plays.find((t: Tile) => t.hasSameCoordinatesAs(tile))!.updatePlayer(tile.Player);
+  /**
+   * Exo 7 refactoring:
+   * Instead of passing row, col, mark separately,
+   * we now accept a Square objet.
+   */
+  public place(square: Square): void {
+    this.squareAt(square.row, square.col).updateMark(square.mark);
   }
 
-  public findRowFullWithSamePlayer(): string {
-    if (this.isRowFull(firstRow) && this.isRowFullWithSamePlayer(firstRow)) {
-      return this.playerAt(firstRow, firstColumn);
+  private squareAt(row: number, col: number): Square {
+    return this.squares.find(s => s.row === row && s.col === col)!;
+  }
+
+  public findWinningRow(): string {
+    for (let r = 0; r < 3; r++) {
+      const rowSquares = [
+        this.squareAt(r, COL_0),
+        this.squareAt(r, COL_1),
+        this.squareAt(r, COL_2)
+      ];
+
+
+      if (rowSquares.every(s => s.isNotEmpty) &&
+          // @ts-ignore
+          rowSquares[0].mark === rowSquares[1].mark &&
+          // @ts-ignore
+          rowSquares[1].mark === rowSquares[2].mark) {
+        // @ts-ignore
+        return rowSquares[0].mark;
+      }
     }
 
-    if (this.isRowFull(secondRow) && this.isRowFullWithSamePlayer(secondRow)) {
-      return this.playerAt(secondRow, firstColumn);
-    }
-
-    if (this.isRowFull(thirdRow) && this.isRowFullWithSamePlayer(thirdRow)) {
-      return this.playerAt(thirdRow, firstColumn);
-    }
-
-    return noPlayer;
-  }
-
-  private hasSamePlayer(x: number, y: number, otherX: number, otherY: number) {
-    return this.TileAt(x, y)!.hasSamePlayerAs(this.TileAt(otherX, otherY)!);
-  }
-
-  private playerAt(x: number, y: number) {
-    return this.TileAt(x, y)!.Player;
-  }
-
-  private TileAt(x: number, y: number): Tile {
-    return this._plays.find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, noPlayer)))!;
-  }
-
-  private isRowFull(row: number) {
-    return (
-      this.isTilePlayedAt(row, firstColumn) &&
-      this.isTilePlayedAt(row, secondColumn) &&
-      this.isTilePlayedAt(row, thirdColumn)
-    );
-  }
-
-  private isRowFullWithSamePlayer(row: number) {
-    return (
-      this.hasSamePlayer(row, firstColumn, row, secondColumn) &&
-      this.hasSamePlayer(row, secondColumn, row, thirdColumn)
-    );
+    return EMPTY;
   }
 }
