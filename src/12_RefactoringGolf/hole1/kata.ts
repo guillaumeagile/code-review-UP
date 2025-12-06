@@ -1,45 +1,58 @@
 /* eslint-disable */
 
-const firstRow = 0;
-const secondRow = 1;
-const thirdRow = 2;
-const firstColumn = 0;
-const secondColumn = 1;
-const thirdColumn = 2;
+// Domain: allowed grid positions (primitive obsession removed)
+export enum Position {
+  ZERO = 0,
+  ONE = 1,
+  TWO = 2
+}
 
-const playerO = 'O';
-const noPlayer = ' ';
+// Conversion helper to remain compatible with tests using numbers
+export function toPosition(n: number): Position {
+  if (n !== 0 && n !== 1 && n !== 2) {
+    throw new Error("Invalid position");
+  }
+  return n as Position;
+}
+
+const playerO = "O";
+const noPlayer = " ";
 
 export class Game {
   private _lastPlayer = noPlayer;
   private _board: Board = new Board();
 
+  /**
+   * Original API still accepts numbers because tests use numbers.
+   * Internally, we convert to our new typed Position value object.
+   */
   public Play(player: string, x: number, y: number): void {
+    const posX = toPosition(x);
+    const posY = toPosition(y);
+
     this.validateFirstMove(player);
     this.validatePlayer(player);
-    this.validatePositionIsEmpty(x, y);
+    this.validatePositionIsEmpty(posX, posY);
 
     this.updateLastPlayer(player);
-    this.updateBoard(new Tile(x, y, player));
+    this.updateBoard(new Tile(posX, posY, player));
   }
 
   private validateFirstMove(player: string) {
-    if (this._lastPlayer == noPlayer) {
-      if (player == playerO) {
-        throw new Error('Invalid first player');
-      }
+    if (this._lastPlayer == noPlayer && player == playerO) {
+      throw new Error("Invalid first player");
     }
   }
 
   private validatePlayer(player: string) {
     if (player == this._lastPlayer) {
-      throw new Error('Invalid next player');
+      throw new Error("Invalid next player");
     }
   }
 
-  private validatePositionIsEmpty(x: number, y: number) {
+  private validatePositionIsEmpty(x: Position, y: Position) {
     if (this._board.isTilePlayedAt(x, y)) {
-      throw new Error('Invalid position');
+      throw new Error("Invalid position");
     }
   }
 
@@ -57,15 +70,11 @@ export class Game {
 }
 
 class Tile {
-  private x: number = 0;
-  private y: number = 0;
-  private player: string = noPlayer;
-
-  constructor(x: number, y: number, player: string) {
-    this.x = x;
-    this.y = y;
-    this.player = player;
-  }
+  constructor(
+      private x: Position,
+      private y: Position,
+      private player: string = noPlayer
+  ) {}
 
   get Player() {
     return this.player;
@@ -80,7 +89,7 @@ class Tile {
   }
 
   hasSameCoordinatesAs(other: Tile) {
-    return this.x == other.x && this.y == other.y;
+    return this.x === other.x && this.y === other.y;
   }
 
   updatePlayer(newPlayer: string) {
@@ -92,65 +101,66 @@ class Board {
   private _plays: Tile[] = [];
 
   constructor() {
-    for (let x = firstRow; x <= thirdRow; x++) {
-      for (let y = firstColumn; y <= thirdColumn; y++) {
+    // Initialize all 9 squares
+    for (let x of [Position.ZERO, Position.ONE, Position.TWO]) {
+      for (let y of [Position.ZERO, Position.ONE, Position.TWO]) {
         this._plays.push(new Tile(x, y, noPlayer));
       }
     }
   }
 
-  public isTilePlayedAt(x: number, y: number) {
-    return this.findTileAt(new Tile(x, y, noPlayer))!.isNotEmpty;
+  public isTilePlayedAt(x: Position, y: Position) {
+    return this.findTileAt(x, y)!.isNotEmpty;
   }
 
   public AddTileAt(tile: Tile): void {
-    this.findTileAt(tile)!.updatePlayer(tile.Player);
+    this.findTileAt(tile["x"], tile["y"])!.updatePlayer(tile.Player);
+  }
+
+  private findTileAt(x: Position, y: Position) {
+    return this._plays.find(
+        (t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, noPlayer))
+    )!;
   }
 
   public findRowFullWithSamePlayer(): string {
-    if (this.isRowFull(firstRow) && this.isRowFullWithSamePlayer(firstRow)) {
-      return this.playerAt(firstRow, firstColumn);
+    for (const row of [Position.ZERO, Position.ONE, Position.TWO]) {
+      if (this.isRowFull(row) && this.isRowFullWithSamePlayer(row)) {
+        return this.playerAt(row, Position.ZERO);
+      }
     }
-
-    if (this.isRowFull(secondRow) && this.isRowFullWithSamePlayer(secondRow)) {
-      return this.playerAt(secondRow, firstColumn);
-    }
-
-    if (this.isRowFull(thirdRow) && this.isRowFullWithSamePlayer(thirdRow)) {
-      return this.playerAt(thirdRow, firstColumn);
-    }
-
     return noPlayer;
   }
 
-  private findTileAt(tile: Tile) {
-    return this._plays.find((t: Tile) => t.hasSameCoordinatesAs(tile));
+  private playerAt(x: Position, y: Position) {
+    return this.findTileAt(x, y)!.Player;
   }
 
-  private hasSamePlayer(x: number, y: number, otherX: number, otherY: number) {
-    return this.TileAt(x, y)!.hasSamePlayerAs(this.TileAt(otherX, otherY)!);
-  }
-
-  private playerAt(x: number, y: number) {
-    return this.TileAt(x, y)!.Player;
-  }
-
-  private TileAt(x: number, y: number): Tile {
-    return this._plays.find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, noPlayer)))!;
-  }
-
-  private isRowFull(row: number) {
+  private isRowFull(row: Position) {
     return (
-      this.isTilePlayedAt(row, firstColumn) &&
-      this.isTilePlayedAt(row, secondColumn) &&
-      this.isTilePlayedAt(row, thirdColumn)
+        this.isTilePlayedAt(row, Position.ZERO) &&
+        this.isTilePlayedAt(row, Position.ONE) &&
+        this.isTilePlayedAt(row, Position.TWO)
     );
   }
 
-  private isRowFullWithSamePlayer(row: number) {
+  private isRowFullWithSamePlayer(row: Position) {
     return (
-      this.hasSamePlayer(row, firstColumn, row, secondColumn) &&
-      this.hasSamePlayer(row, secondColumn, row, thirdColumn)
+        this.hasSamePlayer(row, Position.ZERO, row, Position.ONE) &&
+        this.hasSamePlayer(row, Position.ONE, row, Position.TWO)
+    );
+  }
+
+  private hasSamePlayer(
+      x1: Position,
+      y1: Position,
+      x2: Position,
+      y2: Position
+  ) {
+    return (
+        this.findTileAt(x1, y1)!.hasSamePlayerAs(
+            this.findTileAt(x2, y2)!
+        )
     );
   }
 }
