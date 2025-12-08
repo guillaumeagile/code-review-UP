@@ -5,6 +5,10 @@ export enum Position {
     Third = 2,
 }
 
+/**
+ * Convertit un nombre en Position
+ * @param n
+ */
 export function toPosition(n: number): Position {
     if (n !== 0 && n !== 1 && n !== 2) {
         throw new Error('Invalid position, must be 0, 1 or 2');
@@ -20,18 +24,20 @@ export class Game {
     private _board: Board = new Board();
 
     public Play(player: string, x: number, y: number): void {
-        // conversion et validation des coordonnées dès l'entrée
         const px = toPosition(x);
         const py = toPosition(y);
-
         this.validateFirstMove(player);
         this.validatePlayer(player);
         this.validatePositionIsEmpty(px, py);
-
         this.updateLastPlayer(player);
         this.updateBoard(new Tile(px, py, player));
     }
 
+    /**
+     * Vérifie si le premier joueur est bien le joueur X
+     * @param player
+     * @private
+     */
     private validateFirstMove(player: string) {
         if (this._lastPlayer == noPlayer) {
             if (player == playerO) {
@@ -40,26 +46,51 @@ export class Game {
         }
     }
 
+    /**
+     * Vérifie si le joueur est différent du dernier joueur
+     * @param player
+     * @private
+     */
     private validatePlayer(player: string) {
         if (player == this._lastPlayer) {
             throw new Error('Invalid next player');
         }
     }
 
+    /**
+     * Vérifie si la position est vide
+     * @param x
+     * @param y
+     * @private
+     */
     private validatePositionIsEmpty(x: Position, y: Position) {
         if (this._board.isTilePlayedAt(x, y)) {
             throw new Error('Invalid position');
         }
     }
 
+    /**
+     * Met à jour le dernier joueur
+     * @param player
+     * @private
+     */
     private updateLastPlayer(player: string) {
         this._lastPlayer = player;
     }
 
+    /**
+     * Met à jour le plateau avec la nouvelle tuile
+     * @param tile
+     * @private
+     */
     private updateBoard(tile: Tile) {
         this._board.AddTileAt(tile);
     }
 
+    /**
+     * Vérifie s'il y a un gagnant
+     * @constructor
+     */
     public Winner(): string {
         return this._board.findRowFullWithSamePlayer();
     }
@@ -84,14 +115,26 @@ class Tile {
         return this.Player !== noPlayer;
     }
 
+    /**
+     * Vérifie si deux tuiles appartiennent au même joueur
+     * @param other
+     */
     hasSamePlayerAs(other: Tile) {
         return this.Player === other.Player;
     }
 
+    /**
+     * Vérifie si deux tuiles ont les mêmes coordonnées
+     * @param other
+     */
     hasSameCoordinatesAs(other: Tile) {
         return this.x === other.x && this.y === other.y;
     }
 
+    /**
+     * Met à jour le joueur de la tuile
+     * @param newPlayer
+     */
     updatePlayer(newPlayer: string) {
         this.player = newPlayer;
     }
@@ -108,14 +151,27 @@ class Board {
         }
     }
 
+    /**
+     * Vérifie si une tuile est déjà jouée aux coordonnées données
+     * @param x
+     * @param y
+     */
     public isTilePlayedAt(x: number | Position, y: number | Position) {
         return this.findTileAt(new Tile(x, y, noPlayer))!.isNotEmpty;
     }
 
+    /**
+     * Ajoute une tuile au plateau
+     * @param tile
+     * @constructor
+     */
     public AddTileAt(tile: Tile): void {
         this.findTileAt(tile)!.updatePlayer(tile.Player);
     }
 
+    /**
+     * Vérifie si une ligne est remplie par le même joueur et retourne ce joueur
+     */
     public findRowFullWithSamePlayer(): string {
         if (this.isRowFull(Position.First) && this.isRowFullWithSamePlayer(Position.First)) {
             return this.playerAt(Position.First, Position.First);
@@ -132,22 +188,47 @@ class Board {
         return noPlayer;
     }
 
+    /**
+     * Récupère la tuile aux coordonnées données
+     * @param tile
+     * @private
+     */
     private findTileAt(tile: Tile) {
         return this._plays.find((t: Tile) => t.hasSameCoordinatesAs(tile));
     }
 
+    /**
+     * Vérifie si les tuiles aux positions données appartiennent au même joueur
+     * @param x
+     * @param y
+     * @param otherX
+     * @param otherY
+     * @private
+     */
     private hasSamePlayer(x: Position, y: Position, otherX: Position, otherY: Position) {
         return this.TileAt(x, y)!.hasSamePlayerAs(this.TileAt(otherX, otherY)!);
     }
 
+    /**
+     * Récupère le joueur à la position donnée
+     * @param x
+     * @param y
+     * @private
+     */
     private playerAt(x: Position, y: Position) {
         return this.TileAt(x, y)!.Player;
     }
 
+    /*
+     * Récupère la tuile à la position donnée
+     */
     private TileAt(x: Position, y: Position): Tile {
         return this._plays.find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, noPlayer)))!;
     }
 
+    /*
+     * Vérifie si une ligne est remplie
+     */
     private isRowFull(row: Position) {
         return (
             this.isTilePlayedAt(row, Position.First) &&
@@ -156,6 +237,9 @@ class Board {
         );
     }
 
+    /*
+     * Vérifie si une ligne est remplie par le même joueur
+     */
     private isRowFullWithSamePlayer(row: Position) {
         return (
             this.hasSamePlayer(row, Position.First, row, Position.Second) &&
