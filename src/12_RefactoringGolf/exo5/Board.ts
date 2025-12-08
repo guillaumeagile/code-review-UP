@@ -1,13 +1,5 @@
 import { Tile } from './Tile';
-import {
-    FIRST_ROW,
-    SECOND_ROW,
-    THIRD_ROW,
-    FIRST_COLUMN,
-    SECOND_COLUMN,
-    THIRD_COLUMN,
-    EMPTY_PLAY,
-} from './constants';
+import {FIRST_ROW, SECOND_ROW, THIRD_ROW, FIRST_COLUMN, SECOND_COLUMN, THIRD_COLUMN,EMPTY_PLAY,} from './constants';
 
 export class Board {
     private _plays: Tile[] = [];
@@ -20,8 +12,19 @@ export class Board {
         }
     }
 
+    public isWithinBounds(x: number, y: number): boolean {
+        return x >= FIRST_ROW && x <= THIRD_ROW && y >= FIRST_COLUMN && y <= THIRD_COLUMN;
+    }
+
     public tileAt(x: number, y: number): Tile {
+        if (!this.isWithinBounds(x, y)) {
+            throw new Error('Position hors limites');
+        }
         return this._plays.find((t) => t.x === x && t.y === y)!;
+    }
+
+    public isEmpty(x: number, y: number): boolean {
+        return this.tileAt(x, y).isEmpty();
     }
 
     public addTileAt(symbol: string, x: number, y: number): void {
