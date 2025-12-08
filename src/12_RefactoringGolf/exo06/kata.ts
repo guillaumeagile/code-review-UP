@@ -24,7 +24,7 @@ export class Game {
     }
 
     public Winner(): string {
-        return this._board.findRowFullWithSamePlayer();
+        return this._board.findWinningRow();
     }
 
     private validateFirstPlayerMove(player: string) {
@@ -42,7 +42,7 @@ export class Game {
     }
 
     private validatePositionIsEmpty(x: number, y: number) {
-        if (this._board.TileAt(x, y).isNotEmpty) {
+        if (this._board.tileAt(x, y).isNotEmpty) {
             throw new Error('Invalid position');
         }
     }
@@ -52,41 +52,42 @@ export class Game {
     }
 
     private updateBoard(player: string, x: number, y: number) {
-        this._board.AddTileAt(player, x, y);
+        this._board.addTileAt(player, x, y);
     }
 }
 
 class Tile {
     private x: number = 0;
     private y: number = 0;
-    private symbol: string = EMPTY_CELL;
+    private _symbol: string = EMPTY_CELL;
 
     constructor(x: number, y: number, symbol: string) {
         this.x = x;
         this.y = y;
-        this.symbol = symbol;
+        this._symbol = symbol;
     }
 
-    get Symbol() {
-        return this.symbol;
+    get symbol() {
+        return this._symbol;
     }
 
     get isNotEmpty() {
-        return this.Symbol !== EMPTY_CELL;
+        return this.symbol !== EMPTY_CELL;
     }
 
     hasSameSymbolAs(other: Tile) {
-        return this.Symbol === other.Symbol;
+        return this.symbol === other.symbol;
     }
 
     hasSameCoordinatesAs(other: Tile) {
-        return this.x == other.x && this.y == other.y;
+        return this.x === other.x && this.y === other.y;
     }
 
     updateSymbol(newSymbol: string) {
-        this.symbol = newSymbol;
+        this._symbol = newSymbol;
     }
 }
+
 
 class Board {
     private _plays: Tile[] = [];
@@ -99,44 +100,45 @@ class Board {
         }
     }
 
-    public TileAt(x: number, y: number): Tile {
+    public tileAt(x: number, y: number): Tile {
         return this._plays.find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, EMPTY_CELL)))!;
     }
 
-    public AddTileAt(symbol: string, x: number, y: number): void {
+    public addTileAt(symbol: string, x: number, y: number): void {
         this._plays
             .find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, symbol)))!
             .updateSymbol(symbol);
     }
 
-    public findRowFullWithSamePlayer(): string {
-        if (this.isRowFull(TOP) && this.isRowFullWithSameSymbol(TOP)) {
-            return this.TileAt(TOP, LEFT)!.Symbol;
+    public findWinningRow(): string {
+        if (this.isRowComplete(TOP) && this.isRowCompleteWithSameSymbol(TOP)) {
+            return this.tileAt(TOP, LEFT)!.symbol;
         }
 
-        if (this.isRowFull(MIDDLE) && this.isRowFullWithSameSymbol(MIDDLE)) {
-            return this.TileAt(MIDDLE, LEFT)!.Symbol;
+        if (this.isRowComplete(MIDDLE) && this.isRowCompleteWithSameSymbol(MIDDLE)) {
+            return this.tileAt(MIDDLE, LEFT)!.symbol;
         }
 
-        if (this.isRowFull(BOTTOM) && this.isRowFullWithSameSymbol(BOTTOM)) {
-            return this.TileAt(BOTTOM, LEFT)!.Symbol;
+        if (this.isRowComplete(BOTTOM) && this.isRowCompleteWithSameSymbol(BOTTOM)) {
+            return this.tileAt(BOTTOM, LEFT)!.symbol;
         }
 
         return EMPTY_CELL;
     }
 
-    private isRowFull(row: number) {
+    private isRowComplete(row: number) {
         return (
-            this.TileAt(row, LEFT)!.isNotEmpty &&
-            this.TileAt(row, CENTER)!.isNotEmpty &&
-            this.TileAt(row, RIGHT)!.isNotEmpty
+            this.tileAt(row, LEFT)!.isNotEmpty &&
+            this.tileAt(row, CENTER)!.isNotEmpty &&
+            this.tileAt(row, RIGHT)!.isNotEmpty
         );
     }
 
-    private isRowFullWithSameSymbol(row: number) {
+    private isRowCompleteWithSameSymbol(row: number) {
         return (
-            this.TileAt(row, LEFT)!.hasSameSymbolAs(this.TileAt(row, CENTER)!) &&
-            this.TileAt(row, RIGHT)!.hasSameSymbolAs(this.TileAt(row, CENTER)!)
+            this.tileAt(row, LEFT)!.hasSameSymbolAs(this.tileAt(row, CENTER)!) &&
+            this.tileAt(row, RIGHT)!.hasSameSymbolAs(this.tileAt(row, CENTER)!)
         );
     }
 }
+
