@@ -11,12 +11,12 @@ const PLAYER_O = 'O';
 const EMPTY_CELL = ' ';
 
 export class Game {
-    private _lastSymbol = EMPTY_CELL;
+    private _lastPlayerSymbol = EMPTY_CELL;
     private _board: Board = new Board();
 
     public Play(symbol: string, x: number, y: number): void {
-        this.validateFirstMove(symbol);
-        this.validatePlayer(symbol);
+        this.validateFirstPlayerMove(symbol);
+        this.validateNextPlayer(symbol);
         this.validatePositionIsEmpty(x, y);
 
         this.updateLastPlayer(symbol);
@@ -27,16 +27,16 @@ export class Game {
         return this._board.findRowFullWithSamePlayer();
     }
 
-    private validateFirstMove(player: string) {
-        if (this._lastSymbol == EMPTY_CELL) {
-            if (player == PLAYER_O) {
+    private validateFirstPlayerMove(player: string) {
+        if (this._lastPlayerSymbol === EMPTY_CELL) {
+            if (player === PLAYER_O) {
                 throw new Error('Invalid first player');
             }
         }
     }
 
-    private validatePlayer(player: string) {
-        if (player == this._lastSymbol) {
+    private validateNextPlayer(player: string) {
+        if (player === this._lastPlayerSymbol) {
             throw new Error('Invalid next player');
         }
     }
@@ -48,7 +48,7 @@ export class Game {
     }
 
     private updateLastPlayer(player: string) {
-        this._lastSymbol = player;
+        this._lastPlayerSymbol = player;
     }
 
     private updateBoard(player: string, x: number, y: number) {
