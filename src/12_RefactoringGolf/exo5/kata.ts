@@ -7,6 +7,7 @@ export class Game {
         this.core.play(symbol, x, y);
     }
 
+
     public Winner(): string {
         return this.core.winner();
     }
