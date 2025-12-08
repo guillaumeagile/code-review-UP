@@ -102,18 +102,12 @@ class Board {
     }
 
     public findRowFullWithSamePlayer(): string {
-        if (this.isRowFull(firstRow) && this.isRowFullWithSameSymbol(firstRow)) {
-            return this.TileAt(firstRow, firstColumn).Symbol;
+        const rows = [firstRow, secondRow, thirdRow];
+        for (const row of rows) {
+            if (this.isRowFull(row) && this.isRowFullWithSameSymbol(row)) {
+                return this.TileAt(row, firstColumn).Symbol;
+            }
         }
-
-        if (this.isRowFull(secondRow) && this.isRowFullWithSameSymbol(secondRow)) {
-            return this.TileAt(secondRow, firstColumn).Symbol;
-        }
-
-        if (this.isRowFull(thirdRow) && this.isRowFullWithSameSymbol(thirdRow)) {
-            return this.TileAt(thirdRow, firstColumn).Symbol;
-        }
-
         return emptyPlay;
     }
 
