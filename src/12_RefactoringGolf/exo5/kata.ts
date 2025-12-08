@@ -87,7 +87,7 @@ class Board {
     constructor() {
         for (let i = firstRow; i <= thirdRow; i++) {
             for (let j = firstColumn; j <= thirdColumn; j++) {
-                const tile: Tile = {X: i, Y: j, Symbol: emptyPlay};
+                const tile = new Tile(i, j, emptyPlay);
                 this._plays.push(tile);
             }
         }
@@ -98,20 +98,20 @@ class Board {
     }
 
     public AddTileAt(symbol: string, x: number, y: number): void {
-        this._plays.find((t: Tile) => t.X == x && t.Y == y)!.Symbol = symbol;
+        this.TileAt(x, y).setSymbol(symbol);
     }
 
     public findRowFullWithSamePlayer(): string {
         if (this.isRowFull(firstRow) && this.isRowFullWithSameSymbol(firstRow)) {
-            return this.TileAt(firstRow, firstColumn)!.Symbol;
+            return this.TileAt(firstRow, firstColumn).Symbol;
         }
 
         if (this.isRowFull(secondRow) && this.isRowFullWithSameSymbol(secondRow)) {
-            return this.TileAt(secondRow, firstColumn)!.Symbol;
+            return this.TileAt(secondRow, firstColumn).Symbol;
         }
 
         if (this.isRowFull(thirdRow) && this.isRowFullWithSameSymbol(thirdRow)) {
-            return this.TileAt(thirdRow, firstColumn)!.Symbol;
+            return this.TileAt(thirdRow, firstColumn).Symbol;
         }
 
         return emptyPlay;
@@ -119,16 +119,16 @@ class Board {
 
     private isRowFull(row: number) {
         return (
-            this.TileAt(row, firstColumn)!.Symbol != emptyPlay &&
-            this.TileAt(row, secondColumn)!.Symbol != emptyPlay &&
-            this.TileAt(row, thirdColumn)!.Symbol != emptyPlay
+            !this.TileAt(row, firstColumn).isEmpty() &&
+            !this.TileAt(row, secondColumn).isEmpty() &&
+            !this.TileAt(row, thirdColumn).isEmpty()
         );
     }
 
     private isRowFullWithSameSymbol(row: number) {
         return (
-            this.TileAt(row, firstColumn)!.Symbol == this.TileAt(row, secondColumn)!.Symbol &&
-            this.TileAt(row, thirdColumn)!.Symbol == this.TileAt(row, secondColumn)!.Symbol
+            this.TileAt(row, firstColumn).hasSameSymbolAs(this.TileAt(row, secondColumn)) &&
+            this.TileAt(row, thirdColumn).hasSameSymbolAs(this.TileAt(row, secondColumn))
         );
     }
 }
