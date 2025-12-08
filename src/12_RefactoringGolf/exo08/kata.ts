@@ -69,13 +69,13 @@ export class Game {
 }
 
 class Tile {
-    private x: number = 0;
-    private y: number = 0;
+    private x: Position;
+    private y: Position;
     private player: string = noPlayer;
 
-    constructor(x: number, y: number, player: string) {
-        this.x = x;
-        this.y = y;
+    constructor(x: number | Position, y: number | Position, player: string) {
+        this.x = typeof x === 'number' ? toPosition(x) : x;
+        this.y = typeof y === 'number' ? toPosition(y) : y;
         this.player = player;
     }
 
@@ -92,7 +92,7 @@ class Tile {
     }
 
     hasSameCoordinatesAs(other: Tile) {
-        return this.x == other.x && this.y == other.y;
+        return this.x === other.x && this.y === other.y;
     }
 
     updatePlayer(newPlayer: string) {
