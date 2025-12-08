@@ -56,11 +56,30 @@ export class Game {
     }
 }
 
-interface Tile {
-    X: number;
-    Y: number;
-    Symbol: string;
+class Tile {
+    public X: number;
+    public Y: number;
+    public Symbol: string;
+
+    constructor(x: number, y: number, symbol: string) {
+        this.X = x;
+        this.Y = y;
+        this.Symbol = symbol;
+    }
+
+    public isEmpty(): boolean {
+        return this.Symbol === emptyPlay;
+    }
+
+    public hasSameSymbolAs(other: Tile): boolean {
+        return this.Symbol === other.Symbol;
+    }
+
+    public setSymbol(symbol: string): void {
+        this.Symbol = symbol;
+    }
 }
+
 
 class Board {
     private _plays: Tile[] = [];
