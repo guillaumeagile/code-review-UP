@@ -22,7 +22,7 @@ export class Game {
 
         this.validatePositionIsEmpty(tile);
 
-        this.updateLastPlayer(player);
+        this.updateLastPlayer(tile);
         this.updateBoard(tile);
     }
 
@@ -50,8 +50,8 @@ export class Game {
         }
     }
 
-    private updateLastPlayer(player: string) {
-        this._lastPlayer = player;
+    private updateLastPlayer(tile: Tile) {
+        this._lastPlayer = tile.Player;
     }
 
     private updateBoard(tile: Tile) {
