@@ -20,16 +20,16 @@ export class Game {
     private _board: Board = new Board();
 
     public Play(player: string, x: number, y: number): void {
+        // conversion et validation des coordonnées dès l'entrée
+        const px = toPosition(x);
+        const py = toPosition(y);
+
         this.validateFirstMove(player);
         this.validatePlayer(player);
-        this.validatePositionIsEmpty(x, y);
+        this.validatePositionIsEmpty(px, py);
 
         this.updateLastPlayer(player);
-        this.updateBoard(new Tile(x, y, player));
-    }
-
-    public Winner(): string {
-        return this._board.findRowFullWithSamePlayer();
+        this.updateBoard(new Tile(px, py, player));
     }
 
     private validateFirstMove(player: string) {
@@ -46,7 +46,7 @@ export class Game {
         }
     }
 
-    private validatePositionIsEmpty(x: number, y: number) {
+    private validatePositionIsEmpty(x: Position, y: Position) {
         if (this._board.isTilePlayedAt(x, y)) {
             throw new Error('Invalid position');
         }
@@ -58,6 +58,10 @@ export class Game {
 
     private updateBoard(tile: Tile) {
         this._board.AddTileAt(tile);
+    }
+
+    public Winner(): string {
+        return this._board.findRowFullWithSamePlayer();
     }
 }
 
