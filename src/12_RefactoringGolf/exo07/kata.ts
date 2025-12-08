@@ -30,6 +30,11 @@ export class Game {
         return this._board.findRowFullWithSamePlayer();
     }
 
+  /**
+   * Verifie si le premier joueur est bien le joueur X
+   * @param player
+   * @private
+   */
     private validateFirstMove(player: string) {
         if (this._lastPlayer == noPlayer) {
             if (player == playerO) {
@@ -38,22 +43,42 @@ export class Game {
         }
     }
 
+  /**
+   * Verifie si le joueur est different du dernier joueur ayant joue
+   * @param player
+   * @private
+   */
     private validatePlayer(player: string) {
         if (player == this._lastPlayer) {
             throw new Error('Invalid next player');
         }
     }
 
+  /**
+   * Verifie si la position est deja occupee
+   * @param tile
+   * @private
+   */
     private validatePositionIsEmpty(tile: Tile) {
         if (this._board.isTilePlayedAt(tile.X, tile.Y)) {
             throw new Error('Invalid position');
         }
     }
 
+  /**
+   * Met a jour le dernier joueur ayant joue
+   * @param tile
+   * @private
+   */
     private updateLastPlayer(tile: Tile) {
         this._lastPlayer = tile.Player;
     }
 
+  /**
+   * Met a jour le plateau avec la nouvelle tuile
+   * @param tile
+   * @private
+   */
     private updateBoard(tile: Tile) {
         this._board.AddTileAt(tile);
     }
@@ -86,15 +111,27 @@ class Tile {
         return this.Player !== noPlayer;
     }
 
-    hasSamePlayerAs(other: Tile) {
+  /**
+   * Verifie si deux tuiles ont le meme joueur
+   * @param other
+   */
+  hasSamePlayerAs(other: Tile) {
         return this.Player === other.Player;
     }
 
-    hasSameCoordinatesAs(other: Tile) {
+  /**
+   * Verifie si deux tuiles ont les memes coordonnees
+   * @param other
+   */
+  hasSameCoordinatesAs(other: Tile) {
         return this.x == other.x && this.y == other.y;
     }
 
-    updatePlayer(newPlayer: string) {
+  /**
+    * Met a jour le joueur de la tuile
+   * @param newPlayer
+   */
+  updatePlayer(newPlayer: string) {
         this.player = newPlayer;
     }
 }
@@ -110,16 +147,28 @@ class Board {
         }
     }
 
+  /**
+   * Verifie si une tuile est deja jouee
+   * @param x
+   * @param y
+   */
     public isTilePlayedAt(x: number, y: number) {
-        return this._plays.find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, noPlayer)))!
-            .isNotEmpty;
+        return this._plays.find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, noPlayer)))!.isNotEmpty;
     }
 
+  /**
+   * Ajoute une tuile au plateau
+   * @param tile
+   * @constructor
+   */
     public AddTileAt(tile: Tile): void {
         this._plays.find((t: Tile) => t.hasSameCoordinatesAs(tile))!.updatePlayer(tile.Player);
     }
 
-    public findRowFullWithSamePlayer(): string {
+  /**
+   * Recherche une ligne complete avec le meme joueur
+   */
+  public findRowFullWithSamePlayer(): string {
         if (this.isRowFull(firstRow) && this.isRowFullWithSamePlayer(firstRow)) {
             return this.playerAt(firstRow, firstColumn);
         }
@@ -135,18 +184,44 @@ class Board {
         return noPlayer;
     }
 
+  /**
+   * Verifie si deux tuiles ont le meme joueur
+   * @param x
+   * @param y
+   * @param otherX
+   * @param otherY
+   * @private
+   */
     private hasSamePlayer(x: number, y: number, otherX: number, otherY: number) {
         return this.TileAt(x, y)!.hasSamePlayerAs(this.TileAt(otherX, otherY)!);
     }
 
+  /**
+   * Recupere le joueur a la position x,y
+   * @param x
+   * @param y
+   * @private
+   */
     private playerAt(x: number, y: number) {
         return this.TileAt(x, y)!.Player;
     }
 
+  /**
+   * Recupere la tuile a la position x,y
+   * @param x
+   * @param y
+   * @constructor
+   * @private
+   */
     private TileAt(x: number, y: number): Tile {
         return this._plays.find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, noPlayer)))!;
     }
 
+  /**
+   * Verifie si une ligne est complete
+   * @param row
+   * @private
+   */
     private isRowFull(row: number) {
         return (
             this.isTilePlayedAt(row, firstColumn) &&
@@ -155,6 +230,11 @@ class Board {
         );
     }
 
+  /**
+   * Verifie si une ligne est complete avec le meme joueur
+   * @param row
+   * @private
+   */
     private isRowFullWithSamePlayer(row: number) {
         return (
             this.hasSamePlayer(row, firstColumn, row, secondColumn) &&
