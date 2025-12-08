@@ -7,11 +7,11 @@ const LEFT = 0;
 const CENTER = 1;
 const RIGHT = 2;
 
-const playerO = 'O';
-const emptyPlay = ' ';
+const PLAYER_O = 'O';
+const EMPTY_CELL = ' ';
 
 export class Game {
-    private _lastSymbol = emptyPlay;
+    private _lastSymbol = EMPTY_CELL;
     private _board: Board = new Board();
 
     public Play(symbol: string, x: number, y: number): void {
@@ -28,8 +28,8 @@ export class Game {
     }
 
     private validateFirstMove(player: string) {
-        if (this._lastSymbol == emptyPlay) {
-            if (player == playerO) {
+        if (this._lastSymbol == EMPTY_CELL) {
+            if (player == PLAYER_O) {
                 throw new Error('Invalid first player');
             }
         }
@@ -59,7 +59,7 @@ export class Game {
 class Tile {
     private x: number = 0;
     private y: number = 0;
-    private symbol: string = ' ';
+    private symbol: string = EMPTY_CELL;
 
     constructor(x: number, y: number, symbol: string) {
         this.x = x;
@@ -72,7 +72,7 @@ class Tile {
     }
 
     get isNotEmpty() {
-        return this.Symbol !== emptyPlay;
+        return this.Symbol !== EMPTY_CELL;
     }
 
     hasSameSymbolAs(other: Tile) {
@@ -94,13 +94,13 @@ class Board {
     constructor() {
         for (let x = TOP; x <= BOTTOM; x++) {
             for (let y = LEFT; y <= RIGHT; y++) {
-                this._plays.push(new Tile(x, y, emptyPlay));
+                this._plays.push(new Tile(x, y, EMPTY_CELL));
             }
         }
     }
 
     public TileAt(x: number, y: number): Tile {
-        return this._plays.find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, emptyPlay)))!;
+        return this._plays.find((t: Tile) => t.hasSameCoordinatesAs(new Tile(x, y, EMPTY_CELL)))!;
     }
 
     public AddTileAt(symbol: string, x: number, y: number): void {
@@ -122,7 +122,7 @@ class Board {
             return this.TileAt(BOTTOM, LEFT)!.Symbol;
         }
 
-        return emptyPlay;
+        return EMPTY_CELL;
     }
 
     private isRowFull(row: number) {
