@@ -5,7 +5,7 @@ export class Game {
     private _lastSymbol = EMPTY_PLAY;
     private _board: Board = new Board();
 
-    public Play(symbol: string, x: number, y: number): void {
+    public play(symbol: string, x: number, y: number): void {
         this.validateFirstMove(symbol);
         this.validatePlayer(symbol);
 
@@ -20,7 +20,7 @@ export class Game {
         this._lastSymbol = symbol;
     }
 
-    public Winner(): string {
+    public winner(): string {
         return this._board.findRowFullWithSamePlayer();
     }
 
